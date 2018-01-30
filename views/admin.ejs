@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="img/favicon.ico">
+  <title>Adventure Waits Me | WebReactor</title>
+  <meta name="author" content="Preeti Patil, Ankit Rajput, Karthik Sadanand, Satya Keerthi, Taeho Kim" />
+  <meta name="description" content="extreme sports adventure & location from hiking, mountaineering, scuba diving, skydiving, rock climbing, surfing, rafting, and more. Venues include indoor and outdoor.">
+  <meta name="keywords" content="extreme sport, xtreme,, adventure, mountain, hiking, mountanineering, scuba, sky diving, rock climbing, surfing, rafting, indoor, outdoor, national park">
+  <link rel="canonical" href="https://www.adventurewaits.me/">
+  <meta name="google-site-verification" content="Ge96iJwvX5ky5hxwpE46jBuYu8AL0HvMSE4lNhkXbNA" />
+
+  <!-- Google Analytics -->
+  <script>
+    window.ga = window.ga || function () {
+      (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-88232138-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  <script async src="https://www.google-analytics.com/analytics.js"></script>
+  <!-- End Google Analytics -->
+
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/landing-page.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+<script type="text/javascript" src="js/jquery.js"></script>
+
+ <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+ <link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet" type="text/css">
+<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+<script src="https://www.amcharts.com/lib/3/pie.js"></script>
+<script src="https://www.amcharts.com/lib/3/plugins/animate/animate.min.js"></script>
+<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+
+<style type="text/css">
+
+.borderless td, .borderless th {
+	border: none !important;
+}
+
+#chartdiv {
+  width: 100%;
+  height: 500px;
+}					
+</style>
+
+<script>
+	
+	var googleChartData;
+	var allGroups;
+	var allUsers;
+	
+	function drawChart() {		
+		
+		var finalGoogleChartData = [];	
+		finalGoogleChartData.push(['Location', 'Count']);
+		
+		for (var i in googleChartData) {			
+			finalGoogleChartData.push([googleChartData[i].groupLocation, googleChartData[i].count]);				
+		}
+		
+		console.log("final " + JSON.stringify(finalGoogleChartData));
+		
+       var data = google.visualization.arrayToDataTable(finalGoogleChartData);
+
+     var options = {
+       legend: 'none',
+       pieSliceText: 'label',
+       title: 'Groups Proportion for Location',
+       pieStartAngle: 0,
+     };
+
+       var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+       chart.draw(data, options);
+     }
+	
+	
+	function getLocationCategoryGraphs() {
+
+		$.ajax({
+			type : "GET",
+			url : "/getlocationcategorygraphs",	
+			success : function(data) {
+			},
+			statusCode : {
+				200 : function() {
+				},
+				400 : function() {
+					//alert("WRONG CREDENTIALS");
+				},
+				500 : function() {
+					//alert("Server error. Please get back later");
+				},
+				404 : function() {
+					//alert("Resouce not Found. Please try later");
+				},
+				409 : function() {
+					//alert("User Already Exists");
+				}
+			},
+			complete : function(e) {
+				if (e.status == 200) {
+					googleChartData = JSON.parse(e.responseText);
+					console.log("pie data " + JSON.stringify(googleChartData));
+					google.charts.load("current", {packages:["corechart"]});
+					google.charts.setOnLoadCallback(drawChart);											
+				}
+			}
+		});
+	}
+	
+	
+	
+	$(document).ready(function() {
+		
+		getAllGroups();
+		getAllUsers();
+		getGroupCategoryGraphs();
+		getLocationCategoryGraphs();
+
+		$("#searchGroupForm").submit(function(e) {
+			e.preventDefault();
+			searchGroups();
+		});
+	});
+	
+	function getGroupCategoryGraphs() {
+
+		$.ajax({
+			type : "GET",
+			url : "/getgroupcategorygraphs",	
+			success : function(data) {
+			},
+			statusCode : {
+				200 : function() {
+				},
+				400 : function() {
+					//alert("WRONG CREDENTIALS");
+				},
+				500 : function() {
+					//alert("Server error. Please get back later");
+				},
+				404 : function() {
+					//alert("Resouce not Found. Please try later");
+				},
+				409 : function() {
+					//alert("User Already Exists");
+				}
+			},
+			complete : function(e) {
+				if (e.status == 200) {
+					var pieData = JSON.parse(e.responseText);
+					console.log("pie data " + JSON.stringify(pieData));
+					drawPieChart(pieData);					
+				}
+			}
+		});
+	}
+	
+	function drawPieChart(pieData){
+		
+		var finalPieData = [];		
+		for (var i in pieData) {			
+			finalPieData.push({"GroupCategory": pieData[i]. groupCategory, "size": pieData[i].count});
+		}
+		
+		console.log("finalpiedata " + JSON.stringify(finalPieData));	
+		var chartData = {"Groups": finalPieData};
+		 var currentYear = "Groups";
+		 var chart = AmCharts.makeChart( "chartdiv", {
+		  "type": "pie",
+		  "theme": "light",
+		  "dataProvider": [],
+		  "valueField": "size",
+		  "titleField": "GroupCategory",
+		  "startDuration": 0,
+		  "innerRadius": 80,
+		  "pullOutRadius": 20,
+		  "marginTop": 30,
+		  "titles": [{"text": "Group Proportion for Sports"}],
+		  "allLabels": [{
+		    "y": "54%",
+		    "align": "center",
+		    "size": 25,
+		    "bold": true,
+		    "text": "Groups",
+		    "color": "#555"
+		  }, {
+		    "y": "49%",
+		    "align": "center",
+		    "size": 15,
+		    "text": "Sports",
+		    "color": "#555"
+		  }],
+		  "listeners": [ {
+		    "event": "init",
+		    "method": function(e) {
+		      var chart = e.chart;
+
+		      function getCurrentData() {
+		        var data = chartData[currentYear];				       
+		        return data;
+		      }
+
+		      function loop() {
+		        chart.allLabels[0].text = currentYear;
+		        var data = getCurrentData();
+		        chart.animateData( data, {
+		          duration: 1000,
+		          complete: function() {
+		            setTimeout( loop, 3000 );
+		          }
+		        } );
+		      }
+
+		      loop();
+		    }
+		  } ]
+		});
+	}
+	
+	
+	function getAllGroups() {
+
+		$.ajax({
+			type : "GET",
+			url : "/getallgroups",
+			success : function(data) {
+			},
+			statusCode : {
+				200 : function() {
+				},
+				400 : function() {
+					//alert("WRONG CREDENTIALS");
+				},
+				500 : function() {
+					//alert("Server error. Please get back later");
+				},
+				404 : function() {
+					//alert("Resouce not Found. Please try later");
+				},
+				409 : function() {
+					//alert("User Already Exists");
+				}
+			},
+			complete : function(e) {
+				if (e.status == 200) {
+					allGroups = JSON.parse(e.responseText);
+					countAllGroupPages(allGroups.length);
+					drawAllGroups(allGroups, 0);
+				}
+			}
+		});
+	}
+
+	function countAllGroupPages(allGroupsLength){
+		
+		var totalPages = (allGroupsLength / 5);
+		var page = $("<li />")
+		for (var i = 0; i < totalPages; i++) {			
+			$("#groupPagination").append(page);		
+			page.append($("<a onclick=drawAllGroups(allGroups,'"+ ((i * 5)) +"')>" + (i+1) + "</td>"));
+		}
+	}
+
+
+	function drawAllGroups(data, start) {
+		
+		start = parseInt(start);		
+		$("#allGroupsTable tbody").html("");
+		for (var i = start; i < data.length && i < (start+5) ; i++) {		
+			drawAllGroupsRow(data[i]);
+		}
+	}
+
+	function drawAllGroupsRow(rowData) {
+		var row = $("<tr />")
+		$("#allGroupsTable").append(row);
+		row.append($("<td><a href='/group/" + rowData.groupid + "'</a>"
+				+ rowData.groupid + "</td>"));
+		row.append($("<td>" + rowData.groupName + "</td>"));
+		row.append($("<td>" + rowData.groupDescription + "</td>"));
+		row.append($("<td>" + rowData.groupAdmin + "</td>"));
+		row.append($("<td>" + rowData.groupCategory + "</td>"));
+		row.append($("<td>" + rowData.groupLocation + "</td>"));
+		row.append($("<td><button onclick='removeGroup(" + rowData.groupid + ")'>Remove</button></td>"));
+	}
+
+	
+	function removeGroup(groupId) {
+		var myData = {};
+		myData.groupid = groupId;
+
+		$.ajax({
+			type : "POST",
+			url : "/removegroup",
+			data : myData,
+			success : function(data) {
+			},
+			statusCode : {
+				200 : function() {
+					////alert("received groups");					
+				},
+				400 : function() {
+					//alert("WRONG CREDENTIALS");
+				},
+				500 : function() {
+					//alert("Server error. Please get back later");
+				},
+				404 : function() {
+					//alert("Resouce not Found. Please try later");
+				},
+				409 : function() {
+					//alert("User Already Exists");
+				}
+			},
+			complete : function(e) {
+				if (e.status == 200) {
+					window.location.reload();
+				}
+			}
+		});
+	}
+	
+	function getAllUsers() {
+
+		$.ajax({
+			type : "GET",
+			url : "/getallusers",
+			success : function(data) {
+			},
+			statusCode : {
+				200 : function() {
+				},
+				400 : function() {
+					//alert("WRONG CREDENTIALS");
+				},
+				500 : function() {
+					//alert("Server error. Please get back later");
+				},
+				404 : function() {
+					//alert("Resouce not Found. Please try later");
+				},
+				409 : function() {
+					//alert("User Already Exists");
+				}
+			},
+			complete : function(e) {
+				if (e.status == 200) {
+					allUsers = JSON.parse(e.responseText);
+					countAllUserPages(allUsers.length);
+					drawAllUsers(allUsers, 0);
+				}
+			}
+		});
+	}
+
+
+	function countAllUserPages(allUserLength){
+		
+		var totalPages = (allUserLength / 5);
+		var page = $("<li />")
+		for (var i = 0; i < totalPages; i++) {			
+			$("#userPagination").append(page);		
+			page.append($("<a onclick=drawAllUsers(allUsers,'"+ ((i * 5)) +"')>" + (i+1) + "</td>"));
+		}
+	}
+
+
+	function drawAllUsers(data, start) {
+		
+		start = parseInt(start);
+		$("#allUsersTable tbody").html("");
+		for (var i = start; i < data.length && i < (start+5) ; i++) {
+			drawAllUsersRow(data[i]);
+		}
+	}
+
+	function drawAllUsersRow(rowData) {
+		var row = $("<tr />")
+		$("#allUsersTable").append(row);
+		row.append($("<td>" + rowData.fullName + "</td>"));
+		row.append($("<td>" + rowData.email + "</td>"));
+		row.append($("<td>" + rowData.location + "</td>"));
+	}
+</script>
+
+</head>
+<body>
+	
+	<nav class="navbar navbar-inverse navbar-fixed-top topnav" role="navigation" style="opacity: 0.5">
+  <div class="container topnav">
+    <div class="navbar-header">
+				<a class="navbar-brand topnav" href="/"	style="color: white; font-size: 30px; font-family: 'Orbitron', sans-serif;">ADVENTURE</a>
+			</div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li> <a href="/sports" style="color: white;">Sports</a> </li>
+        <li> <a href="/places" style="color: white;">Places</a> </li>
+        <li> <a style="color: white;">Admin</a> </li>
+        <li> <a href="/signout" style="color: white;">Sign Out</a> </li>
+        <li>
+						<a>
+						<div id="google_translate_element"></div>
+						</a>
+						<script type="text/javascript">
+							function googleTranslateElementInit() {
+							  new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'es,fr', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+							}
+						</script>
+						<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>        
+					</li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<!-- Body Content -->
+<div id="chartdivMap" style="height: 650px; width: 100%;"></div> 
+<div class = "container">
+	<div class = "row">
+		<h2 style="text-align: center; padding-top: 30px;">Analysis</h2>
+		<hr style="width: 50%;">
+		<div class = "col-lg-7">
+			<div id="chartdiv"></div>
+		</div>
+		<div class = "col-lg-5">
+			<div id="piechart" style="width: 500px; height: 500px;"></div>
+		</div>
+	</div>
+</div>
+<div id="divBackground" class="container">
+
+  <div class="row">
+  	<h2 style="text-align: center; padding-top: 10px;">User Community</h2>
+	<hr style="width: 50%;">
+      <div class="col-lg-12">
+        <!-- <div style="background-color:rgba(248, 247, 216, 0.7); width:100%; border-radius:10px;">
+        <div style="padding-left:50px; padding-right:50px; padding-bottom:50px; padding-bottom:50px;" > -->
+        
+       <br>
+          <div class="panel-group" >
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a data-toggle="collapse" href="#collapse1">GROUPS</a>
+					</h4>
+				</div>
+				<div id="collapse1" class="panel-collapse collapse">
+					<div class="panel-body">
+						<table id="allGroupsTable" class="table">
+							<thead class="thead-inverse">
+								<tr>
+									<th>Group Id</th>
+									<th>Name</th>
+									<th>Description</th>
+									<th>Admin</th>
+									<th>Sport</th>
+									<th>Location</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+						<div style="text-align: center;">
+							<ul class="pagination" id="groupPagination">
+							  <!-- <li><a href="#">1</a></li> -->						  
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+            <br>
+			<div class="panel panel-danger">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a data-toggle="collapse" href="#collapse2">USERS</a>
+					</h4>
+				</div>
+				<div id="collapse2" class="panel-collapse collapse">
+					<div class="panel-body">
+						<table id="allUsersTable" class="table">
+							<thead class="thead-inverse">
+								<tr>
+									<th>Name</th>
+									<th>Email</th>
+									<th>Location</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+						<div style="text-align: center;">
+							<ul class="pagination" id="userPagination">
+							  <!-- <li><a href="#">1</a></li> -->						  
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+        <br>
+          </div>
+        </div>
+      </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container" align="center">
+      <div class="row">
+        <div class="col-lg-12">
+          <ul class="list-inline">
+            <li><a href="#">Home</a></li>
+            <li class="footer-menu-divider">&sdot;</li>
+            <li><a href="#sports">Sports</a></li>
+            <li class="footer-menu-divider">&sdot;</li>
+            <li><a href="#reviews">Reviews</a></li>
+            <li class="footer-menu-divider">&sdot;</li>
+            <li><a href="#signup" data-toggle="modal" data-target="#myModal">SignIn/Signup</a></li>
+          </ul>
+          <p class="copyright text-muted small">Copyright &copy; WebReactors 2016. All Rights Reserved</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- jQuery -->
+  <script src="js/jquery.js"></script>
+  <script src="js/customize.js"></script>
+	 
+	 
+	 
+	 
+	 <script src="https://www.amcharts.com/lib/3/ammap.js"></script>
+	<script src="https://www.amcharts.com/lib/3/maps/js/usaLow.js"></script>
+	<script	src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+	<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+	<script src="https://www.amcharts.com/lib/3/themes/dark.js"></script>
+	<script src="https://www.amcharts.com/lib/3/themes/chalk.js"></script>
+
+	<script>
+	function initMap() {
+		var uluru = {
+			lat : 37.542571,
+			lng : -121.993037
+		};
+
+		var map = new google.maps.Map(document.getElementById('map'), {
+			zoom : 4,
+			center : uluru
+		});
+
+		getMapData();
+
+		var icons = {
+			icon : 'img/icons/favicon_hiking.ico'
+		};
+
+		function addMarker(feature) {
+			
+			if (feature.state.toUpperCase() == localStorage.getItem("searchedState").toUpperCase())
+				var marker = new google.maps.Marker({
+					location : feature.address,
+					position : new google.maps.LatLng(feature.latitude, feature.longitude), icon : icons.icon, map : map});
+
+			var contentString = '<div id="content">'
+					+ '<div id="siteNotice">' + '</div>'
+					+ '<h4 id="firstHeading" class="firstHeading">'
+					+ feature.type.toUpperCase() + '</h4>'
+					+ '<div id="bodyContent">' + '<p><b>Sport: </b>'
+					+ feature.type + '<br>'
+					+ '<b>Name of the Place: </b>' + feature.name
+					+ '<br>' + '<b>Address of the Place: </b>'
+					+ feature.address + '</p>' + '</div>' + '</div>';
+
+			var infowindow = new google.maps.InfoWindow({
+				content : contentString
+			});
+			marker.addListener('click', function() {
+				infowindow.open(map, marker);
+				maxWidth: 50
+
+			});
+		}
+
+		function getMapData() {
+			
+			var myData = {};
+			myData.searchedState = localStorage.getItem("searchedState");
+
+			$.ajax({
+					url : "/sports",
+					datatype : "JSON",
+					data : myData,
+					type : "POST",
+					success : function(data) {
+						if (data.statusCode == 200) {
+							
+							var newData = data.data;
+							var j = 0;
+							for (var i = 0; i < newData.length; i++) {
+
+								if (newData[i].state.toUpperCase() == myData.searchedState.toUpperCase()) {
+									console.log("FeaTURE IS"+ "                  " + JSON.stringify(newData[i].state));
+									console.log("MAP DATA IS " + JSON.stringify(newData[i]));
+									addMarker(newData[i]);
+									console.log(++j);
+								}
+							}
+						}
+					},
+					error : function() {
+						//alert("error in html");
+					}
+				});
+		}
+	}
+	var heatMapData;
+	var myAreas = [ {id: "US-AL", value: 0}, 
+						{id: "US-AK", value: 0}, 
+						{id: "US-AZ",value: 0}, 
+						{id: "US-AR",value: 0}, 
+						{id: "US-CA",value: 0}, 
+						{id: "US-CO",value: 0}, 
+						{id: "US-CT",value: 0}, 
+						{id: "US-DE",value: 0}, 
+						{id: "US-FL",value: 0}, 
+						{id: "US-GA",value: 0}, 
+						{id: "US-HI",value: 0}, 
+						{id: "US-ID",value: 0}, 
+						{id: "US-IL",value: 0}, 
+						{id: "US-IN",value: 0}, 
+						{id: "US-IA",value: 0}, 
+						{id: "US-KS",value: 0}, 
+						{id: "US-KY",value: 0}, 
+						{id: "US-LA",value: 0}, 
+						{id: "US-ME",value: 0}, 
+						{id: "US-MD",value: 0}, 
+						{id: "US-MA",value: 0}, 
+						{id: "US-MI",value: 0}, 
+						{id: "US-MN",value: 0}, 
+						{id: "US-MS",value: 0}, 
+						{id: "US-MO",value: 0}, 
+						{
+	      id: "US-MT",
+	      value: 0
+	    }, {
+	      id: "US-NE",
+	      value: 0
+	    }, {
+	      id: "US-NV",
+	      value: 0
+	    }, {
+	      id: "US-NH",
+	      value: 0
+	    }, {
+	      id: "US-NJ",
+	      value: 0
+	    }, {
+	      id: "US-NM",
+	      value: 0
+	    }, {
+	      id: "US-NY",
+	      value: 0
+	    }, {
+	      id: "US-NC",
+	      value: 0
+	    }, {
+	      id: "US-ND",
+	      value: 0
+	    }, {
+	      id: "US-OH",
+	      value: 0
+	    }, {
+	      id: "US-OK",
+	      value: 0
+	    }, {
+	      id: "US-OR",
+	      value: 0
+	    }, {
+	      id: "US-PA",
+	      value: 0
+	    }, {
+	      id: "US-RI",
+	      value: 0
+	    }, {
+	      id: "US-SC",
+	      value: 0
+	    }, {
+	      id: "US-SD",
+	      value: 0
+	    }, {
+	      id: "US-TN",
+	      value: 0
+	    }, {
+	      id: "US-TX",
+	      value: 0
+	    }, {
+	      id: "US-UT",
+	      value: 0
+	    }, {
+	      id: "US-VT",
+	      value: 0
+	    }, {
+	      id: "US-VA",
+	      value: 0
+	    }, {
+	      id: "US-WA",
+	      value: 0
+	    }, {
+	      id: "US-WV",
+	      value: 0
+	    }, {
+	      id: "US-WI",
+	      value: 0
+	    }, {
+	      id: "US-WY",
+	      value: 0
+	    } ];
+	
+	 $.ajax({
+		type : "GET",
+		url : "/getlocationcategorygraphs",	
+		success : function(data) {
+		},
+		statusCode : {
+			200 : function() {		},
+			400 : function() {	alert("WRONG CREDENTIALS");	},
+			500 : function() {			alert("Server error. Please get back later");			},
+			404 : function() {				alert("Resouce not Found. Please try later");			},
+			409 : function() {				alert("User Already Exists");			}
+		},
+		complete : function(e) {
+			if (e.status == 200) {
+				heatMapData = JSON.parse(e.responseText);
+				console.log("hea " + JSON.stringify(heatMapData));
+				for ( var i in heatMapData) {
+					
+					for ( var j in myAreas) {
+						var t = "US-" + heatMapData[i].groupLocation;					
+						if(t == myAreas[j].id){
+							myAreas[j].value = heatMapData[i].count;
+						}
+					}					
+				}
+			}
+		}
+	}); 
+	
+	
+	/*$.ajax({
+		type : "POST",
+		url : "/sports",
+		datatype: "JSON",
+		data: {},		
+		success : function(data) {
+		},
+		statusCode : {
+			200 : function() {		},
+			400 : function() {	alert("WRONG CREDENTIALS");	},
+			500 : function() {			alert("Server error. Please get back later");			},
+			404 : function() {				alert("Resouce not Found. Please try later");			},
+			409 : function() {				alert("User Already Exists");			}
+		},
+		complete : function(e) {
+			if (e.status == 200) {
+				heatMapData = JSON.parse(e.responseText);
+				heatMapData = heatMapData.data;
+				
+				for (var i in heatMapData) {					
+					for (var j in myAreas) {
+						var t = "US-" + heatMapData[i].state;			
+						console.log("myAreas is " + myAreas[j].id + " aa " + heatMapData[i].state);
+						if(t == myAreas[j].id){
+							myAreas[j].value =  parseInt(myAreas[j].value) + 1;	
+							
+						}
+					}					
+				}
+				//console.log("HHHH " + JSON.stringify(heatMapData));
+			}			
+		}
+	}); */
+	
+	
+	
+	var map = AmCharts.makeChart( "chartdivMap", {
+		  "type": "map",
+		  "theme": "none",
+		  "colorSteps": 10,
+		  "panEventsEnabled" : true,
+			"backgroundColor" : "#5971E3",
+			"backgroundAlpha" : 1,
+
+		  "dataProvider": {
+				"map" : "usaLow",
+				"getAreasFromMap" : true,
+				"areas": myAreas
+			},
+		  "areasSettings": {
+		    "autoZoom": true
+		  },		  
+		  "imagesSettings": {
+		    "labelPosition": "middle",
+		    "labelFontSize": 12
+		  },
+		  "valueLegend": {
+		    "right": 10,
+		    "minValue": "little",
+		    "maxValue": "a lot!"
+		  }
+
+		} );
+
+		map.addListener("init", function () {
+		  
+		  var longitude = {"US-CA": -130, "US-FL": 120, "US-TX": 1, "US-LA": 40};		  
+		  var latitude = {"US-AK": -85};
+		  
+		  setTimeout(function () {
+		    
+		    map.dataProvider.images = [];
+		    for( x in map.dataProvider.areas ) {
+		      var area = map.dataProvider.areas[ x ];
+		      area.groupId = area.id;
+		      var image = new AmCharts.MapImage();
+		      image.latitude = latitude[ area.id ] || map.getAreaCenterLatitude( area );
+		      image.longitude = longitude[ area.id ] || map.getAreaCenterLongitude( area );
+		      image.label = area.id.split('-').pop() + "(" +  (area.value) + ")";
+		      image.title = area.title;
+		      image.linkToObject = area;
+		      image.groupId = area.id;
+		      map.dataProvider.images.push( image );
+		    }
+		    map.validateData();
+		    console.log(map.dataProvider);
+		  }, 100)
+		});
+		
+		map.addListener("clickMapObject", function (event) {
+			
+			map.selectedObject = map.dataProvider;									
+			event.mapObject.showAsSelected = !event.mapObject.showAsSelected;
+			map.returnInitialColor(event.mapObject);
+
+			var states = [];
+			for ( var i in map.dataProvider.areas) {
+				var area = map.dataProvider.areas[i];	
+				
+				if (area.showAsSelected) {
+					states.push(area.title);		
+					console.log("GET " + area.id);
+					var newState = area.id.split("-")[1];
+					
+					localStorage.setItem("searchedState", newState);
+					initMap();
+				}
+			}
+			if (states.toString() == "") {										
+				$("#selStates").html("All over the United States");
+			} 
+			else {
+				$("#selStates").html(states.toString());										
+			}		
+		});
+	
+	</script>
+</body>
+</html>

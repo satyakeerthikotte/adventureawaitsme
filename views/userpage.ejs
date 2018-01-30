@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="icon" href="img/favicon.ico">
+  <title>Adventure Waits Me | WebReactor</title>
+  <meta name="author" content="Preeti Patil, Ankit Rajput, Karthik Sadanand, Satya Keerthi, Taeho Kim" />
+  <meta name="description" content="extreme sports adventure & location from hiking, mountaineering, scuba diving, skydiving, rock climbing, surfing, rafting, and more. Venues include indoor and outdoor.">
+  <meta name="keywords" content="extreme sport, xtreme,, adventure, mountain, hiking, mountanineering, scuba, sky diving, rock climbing, surfing, rafting, indoor, outdoor, national park">
+  <link rel="canonical" href="https://www.adventurewaits.me/">
+  <meta name="google-site-verification" content="Ge96iJwvX5ky5hxwpE46jBuYu8AL0HvMSE4lNhkXbNA" />
+
+  <!-- Google Analytics -->
+  <script>
+    window.ga = window.ga || function () {
+      (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-88232138-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  <script async src="https://www.google-analytics.com/analytics.js"></script>
+  <!-- End Google Analytics -->
+<!-- Bootstrap Core CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet" type="text/css">
+<!-- Custom CSS -->
+<link href="css/landing-page.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+<link href="css/userspage.css" rel="stylesheet">
+<style type="text/css">
+#imgCOverPic {
+	width: 100%;
+}
+</style>
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-fixed-top topnav" role="navigation" style="opacity: 0.5">
+  <div class="container topnav">
+    <div class="navbar-header">
+				<a class="navbar-brand topnav" href="/"	style="color: white; font-size: 30px; font-family: 'Orbitron', sans-serif;">ADVENTURE</a>
+			</div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li> <a href="/sports" style="color: white;">Sports</a> </li>
+        <li> <a href="/places" style="color: white;">Places</a> </li>        
+        <li>
+			<a href="/userpage" style="color: white;">
+				<label id="userInfo">SignIn/Signup</label>
+			</a>
+		</li>
+		<li>
+			<a href="/signout" style="color: white;">
+				<label id="signOutLabel"></label>
+			</a>
+		</li>
+        <li>
+						<a>
+						<div id="google_translate_element"></div>
+						</a>
+						<script type="text/javascript">
+							function googleTranslateElementInit() {
+							  new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'es,fr', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+							}
+						</script>
+						<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>        
+					</li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- SignIn Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <ul class="nav nav-tabs nav-justified">
+        <li class="active"><a href="#tab1" data-toggle="tab" style="line-height: 35px;">SignIn</a></li>
+        <li><a href="#tab2" data-toggle="tab" style="line-height: 35px;">New User</a></li>
+      </ul>
+      <div class="tab-content">
+        <div id="tab1" class="tab-pane fade in active">
+          <div class="modal-body">
+            <form role="form">
+              <div class="form-group">
+                <div class="left-inner-addon"> <i class="glyphicon glyphicon-envelope"></i>
+                  <input type="text" class="form-control" id="email" placeholder="Email">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="left-inner-addon"> <i class="glyphicon glyphicon-lock"></i>
+                  <input type="text" class="form-control" id="psw" placeholder="Password">
+                </div>
+              </div>
+              <button type="submit" class="btn btn-success btn-block" style="width: 100%; height: 52px; margin-top: 30px;"> Signin</button>
+            </form>
+          </div>
+        </div>
+        <div id="tab2" class="tab-pane fade">
+          <div class="modal-body">
+            <form role="form">
+              <div class="form-group">
+                <div class="left-inner-addon"> <i class="glyphicon glyphicon-envelope"></i>
+                  <input type="text" class="form-control" id="email" placeholder="Email">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="left-inner-addon"> <i class="glyphicon glyphicon-user"></i>
+                  <input type="text" class="form-control" id="fullName" placeholder="Name">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="left-inner-addon"> <i class="glyphicon glyphicon-lock"></i>
+                  <input type="text" class="form-control" id="password" placeholder="Password">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="left-inner-addon"> <i class="glyphicon glyphicon-lock"></i>
+                  <input type="text" class="form-control" id="confirmPassword" placeholder="Confirm Password">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="left-inner-addon"> <i class="glyphicon glyphicon-lock"></i>
+                  <input type="text" class="form-control" id="userLocation" placeholder="Location (Optional)">
+                </div>
+              </div>
+              <button type="submit" class="btn btn-success btn-block" style="width: 100%; height: 52px; margin-top: 30px;"> Create Account</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Body Content --> 
+<!--User Details-->
+<div style="padding-top:30px; width:100%">
+  <div class="card hovercard">
+    <div class="card-background"> <img alt=""  src="/images/awaits.jpg"> </div>
+    <div class="useravatar"> <img alt="" src="/images/userbadge.png"> </div>
+    <div class="card-trans" style="background-color:rgba(248, 247, 216, 0.7); width:100%;">
+      <div class="row">
+        <div class="col-lg-3">
+          <h3 style="display:inline" id="groupsJoinedLabel">&nbsp; 0</h3>
+          <h5 style="display:inline">Groups Joined</h5>
+        </div>
+        <div class="col-lg-1">&nbsp;</div>
+        <div class="col-lg-3">
+          <h3 style="display:inline" id="groupsPendingLabel">0</h3>
+          <h5 style="display:inline"> Pending Groups</h5>
+        </div>
+        
+        <div class="col-lg-1">&nbsp;</div>
+      </div>
+    </div>
+    <div class="card-info"> <span class="card-title" id="userName">User Name</span> </div>
+  </div>
+</div>
+<!--Create Groups-->
+<div align="center">
+  <h2 class="section-heading">Create Groups</h2>
+  <hr class="section-heading-spacer" style="float: none;">
+  <div class="clearfix"></div>
+</div>
+<div class="well" style="padding-left:50px; padding-right:50px; padding-bottom:50px; padding-bottom:50px;" >
+  <form class="form" id="createGroupForm">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label>Group Name</label>
+          <input type="text" class="form-control"
+							name="groupName" placeholder="Hiking in Spring 2017">
+        </div>
+        <div class="form-group">
+          <label>Group Category</label>
+          <input class="form-control"
+							name="groupCategory" list="groupCategory"
+							placeholder="Hiking or Sky Diving">
+          <datalist id="groupCategory"
+							style="max-height: 50px; overflow-y: scroll;" size="3">
+            <option value="Hiking"></option>
+            <option value="Mounteering"></option>
+            <option value="Sky Diving"></option>
+            <option value="Rock Climbing"></option>
+          </datalist>
+        </div>
+        <div class="form-group">
+          <label>Location</label>
+          <input type="text" class="form-control"
+							id="locationInput" name="groupLocation"
+							placeholder="Enter Location....">
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label>Group Description</label>
+          <textarea style="height: 180px;" type="email" class="form-control"
+							name="groupDescription" placeholder="High Stakes hiking trip.."></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12" style="text-align: center;">
+        <button style="width: 300px;" type="submit" class="btn btn-success">Create
+        Group</button>
+      </div>
+    </div>
+  </form>
+</div>
+<!--Search Groups-->
+<div align="center">
+  <h2 class="section-heading">Search Groups</h2>
+  <hr class="section-heading-spacer" style="float: none;">
+  <div class="clearfix"></div>
+</div>
+<div class="panel-group" style="padding-left:50px; padding-right:50px; padding-bottom:50px; padding-bottom:50px;">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <form id="searchGroupForm">
+          <div class="input-group">
+            <input type="text" class="form-control"
+									placeholder="Search Groups" id="searchString"
+									name="searchString">
+            <div class="input-group-btn">
+              <button class="btn btn-success" type="submit"
+										onclick="$('#collapse3').show();"> 
+              <!-- <a data-toggle="collapse" href="#collapse3"> --> 
+              <i class="glyphicon glyphicon-search"></i> 
+              <!-- </a> --> 
+              </button>
+            </div>
+          </div>
+        </form>
+      </h4>
+    </div>
+    <div id="collapse3" class="panel-collapse collapse">
+      <div class="panel-body">
+        <table id="searchGroupDataTable" class="table">
+          <thead class="thead-inverse">
+            <tr>
+              <th>Group Name</th>
+              <th>Group Description</th>
+              <th>Group Category</th>
+              <th>Group Location</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Groups Info-->
+<div align="center">
+  <h2 class="section-heading">All About Your Groups</h2>
+  <hr class="section-heading-spacer" style="float: none;">
+  <div class="clearfix"></div>
+</div>
+<div class="row">
+  <div class="col-lg-1">&nbsp;</div>
+  <div class="col-lg-10">
+    <div >
+      <div role="tabpanel" >
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="active"><a href="#home1" data-toggle="tab" role="tab" aria-controls="tab1">Groups Joined</a></li>
+          <li role="presentation"><a href="#paneTwo1" data-toggle="tab" role="tab" aria-controls="tab2">Pending Groups</a></li>
+          <li role="presentation"><a href="#paneThree" data-toggle="tab" role="tab" aria-controls="tab3">Pending For Approval</a></li>
+        </ul>
+        <div id="tabContent1" class="tab-content">
+          <div role="tabpanel" class="tab-pane fade in active" id="home1">
+            <table id="groupDataTable" class="table">
+              <thead class="thead-inverse">
+                <tr>
+                  <th>Group Id</th>
+                  <th>Group Name</th>
+                  <th>Group Description</th>
+                  <th>Group Category</th>
+                  <th>Group Location</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+          <div role="tabpanel" class="tab-pane fade" id="paneTwo1">
+            <table id="pendingGroupTable" class="table">
+              <thead class="thead-inverse">
+                <tr>
+                  <th>Group Id</th>
+                  <th>Group Name</th>
+                  <th>Group Description</th>
+                  <th>Group Category</th>
+                  <th>Group Location</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+          <div role="tabpanel" class="tab-pane fade" id="paneThree">
+            <table id="approvalUserTable" class="table">
+              <thead class="thead-inverse">
+                <tr>
+                  <th>Email</th>
+                  <th>Name</th>
+                  <th>Location</th>
+                  <th>Action</th>                  
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-1">&nbsp;</div>
+</div>
+ <!-- Footer -->
+  <footer>
+    <div class="container" align="center">
+      <div class="row">
+        <div class="col-lg-12">
+          <ul class="list-inline">
+            <li><a href="#">Home</a></li>
+            <li class="footer-menu-divider">&sdot;</li>
+            <li><a href="#sports">Sports</a></li>
+            <li class="footer-menu-divider">&sdot;</li>
+            <li><a href="#reviews">Reviews</a></li>
+            <li class="footer-menu-divider">&sdot;</li>
+            <li><a href="#signup" data-toggle="modal" data-target="#myModal">SignIn/Signup</a></li>
+          </ul>
+          <p class="copyright text-muted small">Copyright &copy; WebReactors 2016. All Rights Reserved</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- jQuery -->
+  <script src="js/jquery.js"></script>
+  <script src="js/customize.js"></script>
+<script>
+
+		var results;
+		function initMap() {
+			
+			var input = document.getElementById('locationInput');
+			var options = {types: ['(regions)'], componentRestrictions: {country: 'us'}};
+			var autocomplete = new google.maps.places.Autocomplete(input, options);
+			
+			google.maps.event.addListener(autocomplete, 'place_changed', function() {
+		    var place = autocomplete.getPlace();
+		    
+		    for (var i = 0; i < place.address_components.length; i++) {
+		    	//console.log("a ");
+		      for (var j = 0; j < place.address_components[i].types.length; j++) {
+		    	  //console.log("ab " + JSON.stringify(place.address_components[i]));	  
+		        if (place.address_components[i].types[j] == "administrative_area_level_1") {
+			          					
+				          //console.log("STATE " + place.address_components[i].short_name);
+				          localStorage.setItem("groupLocation", place.address_components[i].short_name);
+			        }
+		      }
+		    }
+		  	});
+		}
+	</script> 
+<script
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClDwMh7b3f8ztAmozzF22RfxP1LyBHcsM&libraries=places&callback=initMap"
+		async defer></script> 
+<script src="/js/jquery.js"></script> 
+<script src="/js/bootstrap.min.js"></script> 
+<script>
+	$(document).ready(function() {
+		getUserGroups();
+		getUserPendingGroups();
+		getUserInfo();
+		getToBeApprovedUsers();
+
+		$("#searchGroupForm").submit(function(e) {
+			e.preventDefault();
+			searchGroups();
+		});
+		$("#createGroupForm").submit(function(e) {
+			e.preventDefault();
+			createGroup();
+		});
+		$("#searchFriendForm").submit(function(e) {
+			e.preventDefault();
+			searchFriend();
+		});
+	});
+	
+	
+	function getUserInfo() {
+
+		$.ajax({
+			type: "GET",
+			url: "/getuserinfo",
+			success: function (data) {},
+			statusCode: {
+				200: function () {
+					//alert("USER CREATED");
+				},
+				500: function () {
+					//alert("Server error. Please get back later");
+				},
+				404: function () {
+					//alert("Resouce not Found. Please try later");
+				},
+				409: function () {
+					//alert("User Already Exists");
+				}
+			},
+			complete: function (e) {
+				if (e.status == 200) {
+					var userInfo = JSON.parse(e.responseText);
+					if (userInfo[0].fullName != null || userInfo[0].fullName != "")
+						$("#userInfo").html(userInfo[0].fullName);
+					$("#signOutLabel").html("Sign Out");
+				}
+			}
+		});
+	}
+	
+	
+
+	function createGroup() {
+	
+		$("#locationInput").val(localStorage.getItem("groupLocation"));
+		
+		$.ajax({
+			type : "POST",
+			url : "/creategroup",
+			data : $("#createGroupForm").serialize(),
+			success : function(data) {
+			},
+			statusCode : {
+				200 : function() {
+					//alert("GROUP CREATED");
+				},
+				400 : function() {
+					//alert("WRONG CREDENTIALS");
+				},
+				500 : function() {
+					//alert("Server error. Please get back later");
+				},
+				404 : function() {
+					//alert("Resouce not Found. Please try later");
+				},
+				409 : function() {
+					//alert("User Already Exists");
+				}
+			},
+			complete : function(e) {
+				if (e.status == 200)
+					window.location.reload();
+			}
+		});
+	}
+
+	function searchGroups() {
+
+		$.ajax({
+			type : "POST",
+			url : "/searchgroups",
+			data : $("#searchGroupForm").serialize(),
+			success : function(data) {
+			},
+			statusCode : {
+				200 : function() {
+					//alert("received groups");					
+				},
+				400 : function() {
+					//alert("WRONG CREDENTIALS");
+				},
+				500 : function() {
+					//alert("Server error. Please get back later");
+
+				},
+				404 : function() {
+					//alert("Resouce not Found. Please try later");
+				},
+				409 : function() {
+					//alert("User Already Exists");
+				}
+			},
+			complete : function(e) {
+				if (e.status == 200) {
+					var userGroups = JSON.parse(e.responseText);
+					//console.log(JSON.stringify(userGroups));
+					drawTable1(userGroups);
+				}
+			}
+		});
+	}
+
+	function drawTable1(data) {
+		for ( var i in data) {
+			drawRow1(data[i]);
+		}
+	}
+
+	function drawRow1(rowData) {
+		var row = $("<tr />")
+		$("#searchGroupDataTable tbody").html("");
+		//$("#searchGroupDataTable").append(row);
+		$("#searchGroupDataTable tbody").append(row);
+		/* row.append($("<td><a href='/group/" + rowData.groupid + "'</a>" + rowData.groupid + "</td>")); */
+		row.append($("<td>" + rowData.groupName + "</td>"));
+		row.append($("<td>" + rowData.groupDescription + "</td>"));
+		row.append($("<td>" + rowData.groupCategory + "</td>"));
+		row.append($("<td>" + rowData.groupLocation + "</td>"));
+		row.append($("<td><button onclick='joinGroup(" + rowData.groupid
+				+ ")'>Join</button></td>"));
+	}
+
+	function joinGroup(groupId) {
+		var myData = {};
+		myData.groupid = groupId;
+
+		$.ajax({
+			type : "POST",
+			url : "/joingroup",
+			data : myData,
+			success : function(data) {
+			},
+			statusCode : {
+				200 : function() {
+					//alert("received groups");					
+				},
+				400 : function() {
+					//alert("WRONG CREDENTIALS");
+				},
+				500 : function() {
+					//alert("Server error. Please get back later");
+				},
+				404 : function() {
+					//alert("Resouce not Found. Please try later");
+				},
+				409 : function() {
+					//alert("User Already Exists");
+				}
+			},
+			complete : function(e) {
+				if (e.status == 200) {
+					window.location.reload();
+				}
+			}
+		});
+	}
+
+	function getUserGroups() {
+
+		$.ajax({
+			type : "GET",
+			url : "/getusergroups",
+			success : function(data) {
+			},
+			statusCode : {
+				200 : function() {
+					//alert("received groups");					
+				},
+				400 : function() {
+					//alert("WRONG CREDENTIALS");
+				},
+				500 : function() {
+					//alert("Server error. Please get back later");
+				},
+				404 : function() {
+					//alert("Resouce not Found. Please try later");
+				},
+				409 : function() {
+					//alert("User Already Exists");
+				}
+			},
+			complete : function(e) {
+				if (e.status == 200) {
+					var userGroups = JSON.parse(e.responseText);
+					//console.log(userGroups);
+					drawTable(userGroups);					
+					document.getElementById("groupsJoinedLabel").innerHTML =userGroups.length; 
+				}
+			}
+		});
+	}
+
+	function drawTable(data) {
+		for ( var i in data) {
+			drawRow(data[i]);
+		}
+	}
+
+	function drawRow(rowData) {
+
+		var row = $("<tr />")
+		//$("#groupDataTable").html("");
+		$("#groupDataTable tbody").append(row);
+		row.append($("<td><a href='/group/" + rowData.groupid + "'</a>"
+				+ rowData.groupid + "</td>"));
+		row.append($("<td>" + rowData.groupName + "</td>"));
+		row.append($("<td>" + rowData.groupDescription + "</td>"));
+		row.append($("<td>" + rowData.groupCategory + "</td>"));
+		row.append($("<td>" + rowData.groupLocation + "</td>"));
+	}
+
+	function getUserPendingGroups() {
+
+		$.ajax({
+			type : "GET",
+			url : "/getuserpendinggroups",
+			success : function(data) {
+			},
+			statusCode : {
+				200 : function() {
+					//alert("received groups");					
+				},
+				400 : function() {
+					//alert("WRONG CREDENTIALS");
+				},
+				500 : function() {
+					//alert("Server error. Please get back later");
+				},
+				404 : function() {
+					//alert("Resouce not Found. Please try later");
+				},
+				409 : function() {
+					//alert("User Already Exists");
+				}
+			},
+			complete : function(e) {
+				if (e.status == 200) {
+					var userPendingGroups = JSON.parse(e.responseText);
+					//console.log(userPendingGroups);
+					drawTable4(userPendingGroups);
+					document.getElementById("groupsPendingLabel").innerHTML = userPendingGroups.length;
+				}
+			}
+		});
+	}
+
+	function drawTable4(data) {
+		for ( var i in data) {
+			drawRow4(data[i]);
+		}
+	}
+
+	function drawRow4(rowData) {
+
+		var row = $("<tr />");
+		//$("#pendingGroupTable").html("");
+		//$("#pendingGroupTable").append(row);
+		$("#pendingGroupTable tbody").append(row);
+		row.append($("<td>" + rowData.groupid + "</td>"));
+		row.append($("<td>" + rowData.groupName + "</td>"));
+		row.append($("<td>" + rowData.groupDescription + "</td>"));
+		row.append($("<td>" + rowData.groupCategory + "</td>"));
+		row.append($("<td>" + rowData.groupLocation + "</td>"));
+	}
+	
+	
+	function getToBeApprovedUsers() {
+
+		$.ajax({
+			type : "GET",
+			url : "/gettobeapprovedusers",
+			success : function(data) {
+			},
+			statusCode : {
+				200 : function() {
+					//alert("received groups");					
+				},
+				400 : function() {
+					//alert("WRONG CREDENTIALS");
+				},
+				500 : function() {
+					//alert("Server error. Please get back later");
+				},
+				404 : function() {
+					//alert("Resouce not Found. Please try later");
+				},
+				409 : function() {
+					//alert("User Already Exists");
+				}
+			},
+			complete : function(e) {
+				if (e.status == 200) {
+					var toBeApprovedUsers = JSON.parse(e.responseText);
+					//console.log(toBeApprovedUsers);
+					drawTable5(toBeApprovedUsers);					
+				}
+			}
+		});
+	}
+
+	function drawTable5(data) {
+		for ( var i in data) {
+			drawRow5(data[i]);
+		}
+	}
+
+	function drawRow5(rowData) {
+
+		var row = $("<tr />");
+		//$("#approvalUserTable tbody").html("");		
+		$("#approvalUserTable tbody").append(row);
+		row.append($("<td>" + rowData.email + "</td>"));
+		row.append($("<td>" + rowData.fullName + "</td>"));
+		row.append($("<td>" + rowData.location + "</td>"));
+		row.append($("<td><button onclick=approveUser('" + rowData.email + "'," + rowData.groupid + ")>Approvea</button></td>"));
+		//console.log(rowData.email);
+	}
+	
+	
+	function approveUser(userToApprove, groupid) {
+		//alert("aaa");
+		var myData = {};
+		myData.userToApprove = userToApprove;
+		myData.groupid = groupid;
+
+		$.ajax({
+			type : "POST",
+			url : "/approvegroupuser",	
+			data : myData,
+			success : function(data) {
+			},
+			statusCode : {
+				200 : function() {
+					//alert("received groups");					
+				},
+				400 : function() {
+					//alert("WRONG CREDENTIALS");
+				},
+				500 : function() {
+					//alert("Server error. Please get back later");
+				},
+				404 : function() {
+					//alert("Resouce not Found. Please try later");
+				},
+				409 : function() {
+					//alert("User Already Exists");
+				}
+			},
+			complete : function(e) {
+				if (e.status == 200) {
+					window.location.reload();
+				}
+			}
+		});
+	}
+	
+	
+</script>
+</body>
+</html>

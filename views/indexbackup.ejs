@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Landing Page - Start Bootstrap Theme</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/landing-page.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+   <script type="text/javascript"  src="js/jquery.js"></script>
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+	
+	<link href="css/colcarou.css" rel="stylesheet">
+	<script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script src="js/colcarou.js"></script>
+	
+	
+	<script type="text/javascript">
+	
+	function registerUser(){
+		
+		//alert("registering");
+		$.ajax({	
+			type: "POST",
+			url: "/signup",
+			data: $("#registerForm").serialize(), 		
+			success: function(data){
+				//alert("User Registered"); 
+			},
+			statusCode: {
+				200: function(){alert("USER CREATED");},
+				500: function(){alert("Server error. Please get back later");},
+				404: function(){alert("Resouce not Found. Please try later");},
+				409: function(){alert("User Already Exists");}
+			},
+			complete: function(e){
+				
+			}
+		});
+	}
+	
+	function signInUser(){
+		
+		//alert("signing in user");
+		$.ajax({	
+			type: "POST",
+			url: "/signin",
+			data: $("#signInForm").serialize(), 		
+			success: function(data){
+				//alert("User signed"); 
+			},
+			statusCode: {
+				200: function(){
+					//alert("USER SIGNIN In");
+					window.location.href="/userpage";
+				},					
+				400: function(){alert("WRONG CREDENTIALS");	},
+				500: function(){alert("Server error. Please get back later");},
+				404: function(){alert("Resouce not Found. Please try later");},
+				409: function(){alert("User Already Exists");}
+			},
+			complete: function(e){
+				
+			}
+		});
+	}
+	
+	
+	$(document).ready(function() {		
+		$("#registerForm").submit(function(e) {			
+			e.preventDefault();
+			registerUser();
+		});
+	});
+	
+	$(document).ready(function() {		
+		$("#signInForm").submit(function(e) {			
+			e.preventDefault();
+			signInUser();
+		});
+	});
+	
+	
+	$('.colcarou').colcarou();
+	$('.colcarou').colcarou({
+
+		  // width of title labels
+		  slide_width:70,
+
+		  // width / height of carousel
+		  frame_width:965,
+		  frame_height:450
+		  
+	});
+
+	
+	</script>
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top topnav" role="navigation" style="opacity: 0.5">
+        <div class="container topnav">
+            
+            <div class="navbar-header">                
+                <a class="navbar-brand topnav" href="#" style="color: white; font-size: 30px">ADVENTURE</a>
+            </div>
+            
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#sports" style="color: white;">Sports</a>
+                    </li>
+                    <li>
+                        <a href="#reviews" style="color: white;">Reviews</a>
+                    </li>
+                    <li>
+                        <a href="#signup" style="color: white;" data-toggle="modal" data-target="#myModal">SignIn/Signup</a>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right">
+		          <div class="form-group" style="z-index:1000;">
+		            <input type="text" class="form-control" id="locationInput" list="sportsList" placeholder="Location or Sport">
+		            <datalist id="sportsList">
+		              <option value="Hiking">Hiking</option>
+		              <option value="Mountaineering">Mountaineering</option>
+		              <option value="Rafting">Rafting</option>
+		              <option value="Rock Climbing">Rock Climbing</option>
+		              <option value="Scuba Diving">Scuba Diving</option>
+		              <option value="Sky Diving">Sky Diving</option>
+		              <option value="Surfing">Surfing</option>
+		            </datalist>
+		          </div>
+		          <button id="locationSubmit" type="button" class="btn btn-default">Search</button>
+		        </form>
+            </div>            
+        </div>        
+    </nav>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+
+                        <ul class="nav nav-tabs nav-justified">
+                            <li class="active"><a href="#tab1" data-toggle="tab" style="line-height: 35px;">SignIn</a></li>
+                            <li><a href="#tab2" data-toggle="tab" style="line-height: 35px;">New User</a></li>                      
+                        </ul>
+                        <div class="tab-content">
+                            <div id="tab1" class="tab-pane fade in active">
+                                <div class="modal-body">
+                                    <form id="signInForm" role="form">
+                                        <div class="form-group">
+                                            <div class="left-inner-addon">                                  
+                                                <i class="glyphicon glyphicon-envelope"></i>
+                                                <input type="text" class="form-control" id="email" name="email"  placeholder="Email">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="left-inner-addon">
+                                                <i class="glyphicon glyphicon-lock"></i>
+                                                <input type="text" class="form-control" id="password" name="password" placeholder="Password">
+                                            </div>
+                                        </div>                              
+                                        <button type="submit" class="btn btn-success btn-block" style="width: 100%; height: 52px; margin-top: 30px;">                   
+                                            Signin</button>
+                                    </form>
+                                </div>
+                            </div>
+                                <div id="tab2" class="tab-pane fade">
+                                    <div class="modal-body">
+                                        <form id="registerForm" role="form">
+                                            <div class="form-group">
+                                                <div class="left-inner-addon">                                  
+                                                    <i class="glyphicon glyphicon-envelope"></i>
+                                                    <input type="text" class="form-control" id="email" name="email" placeholder="Email">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="left-inner-addon">
+                                                    <i class="glyphicon glyphicon-user"></i>
+                                                    <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Name">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="left-inner-addon">
+                                                    <i class="glyphicon glyphicon-lock"></i>
+                                                    <input type="text" class="form-control" id="password" name="password" placeholder="Password">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="left-inner-addon">
+                                                    <i class="glyphicon glyphicon-lock"></i>
+                                                    <input type="text" class="form-control" id="confirmPassword" placeholder="Confirm Password">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="left-inner-addon">
+                                                    <i class="glyphicon glyphicon-lock"></i>
+                                                    <input type="text" class="form-control" id="userLocation" name="userLocation" placeholder="Location (Optional)">
+                                                </div>
+                                            </div>                              
+                                            <button type="submit" class="btn btn-success btn-block" style="width: 100%; height: 52px; margin-top: 30px;">                   
+                                                Create Account</button>
+                                        </form>
+                                    </div>  
+                                </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+    <!-- Header -->
+    <a name="about"></a>
+    <div class="intro-header">
+        
+        <video id="my-video" class="video" autoplay="autoplay" loop="loop" muted="" width="300px" height="300px">
+          <source src="video/video.mp4" type="video/mp4" />
+        </video>
+
+        <div class="container content">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="intro-message">
+                        <h1>Life is a Sport</h1>
+                        <h2>Make it Count</h2>
+                        <hr class="intro-divider">
+                        <ul class="list-inline intro-social-buttons">
+                            <!-- <li>
+                                <a href="https://twitter.com/SBootstrap" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></a>
+                            </li>                             -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>        
+    </div>
+    
+
+    <!-- Page Content -->
+
+	<a name="sports"></a>
+    <div class="content-section-a" style="min-height: 600px;">
+
+        <div class="container" style="min-height: inherit;">
+            <div class="row"  style="min-height: inherit;">
+            
+            
+               <!-- <div align="center">
+                    <h2 class="section-heading">Adventure Sports</h2>
+                    <hr class="section-heading-spacer" style="float: none;">
+                    <div class="clearfix"></div>
+                </div>
+                <ul id="myAccordion" style="min-height: inherit;">
+                    <li style="background: url('img/rafting.jpg');"><p>RAFTING</p></li>
+                    <li style="background: url('img/rafting.jpg');"></li>
+
+                    <li style="background: url('img/rockclimbing.jpg');"><p>ROCK CLIMBING</p></li>
+                    <li style="background: url('img/rockclimbing.jpg');"></li>
+
+                    <li style="background: url('img/skydiving.jpg');"><p>SKY DIVING</p></li>
+                    <li style="background: url('img/skydiving.jpg');"></li>
+
+                    <li style="background: url('img/rafting.jpg');"><p>RAFTING</p></li>
+                    <li style="background: url('img/rafting.jpg');"></li>
+
+                    <li style="background: url('img/rockclimbing.jpg');"><p>ROCK CLIMBING</p></li>
+                    <li style="background: url('img/rockclimbing.jpg');"></li>
+
+                    <li style="background: url('img/skydiving.jpg');"><p>SKY DIVING</p></li>
+                    <li style="background: url('img/skydiving.jpg');"></li>
+
+                    <li style="background: url('img/rafting.jpg');"><p>RAFTING</p></li>
+                    <li style="background: url('img/rafting.jpg');"></li>                  
+                </ul>  -->               
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="colcarou colcarou-frame" style="width: 965px; height: 450px;">
+    <div style="width: 825px; height: 450px;" class="active colcarou-item" id="colcarou-item-0">
+        <div class="colcarou-textbox" style="width: 660px; top: 45px; left: 82.5px;">
+            <h1 class="colcarou-title">Vadim Sherbakov</h1>
+            <p class="colcarou-text">Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+            <a href="#" class="colcarou-button">Vadim Sherbakov</a>
+        </div>
+      <img src="https://unsplash.it/1800/1200?image=193" alt="example1" style="width: 321.667px; min-width: 825px; min-height: 450px;" class="colcarou-image">
+    </div>
+    <div style="width: 69px; height: 450px; border-left: 1px solid white;" class="colcarou-item inactive" id="colcarou-item-1">
+        <div class="colcarou-textbox colcarou-rotate" style="width: 660px; left: 16px; position: relative; top: 315px;">
+            <h1 class="colcarou-title" style="width: 450px;">Andrea Boldizsar</h1>
+            <p class="colcarou-text" style="display: none;">Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+            <a href="#" class="colcarou-button" style="display: none;">Andrea Boldizsar</a>
+        </div>
+      <img src="https://unsplash.it/1800/1200?image=182" alt="example1" style="width: 321.667px; min-width: 825px; min-height: 450px;" class="colcarou-image">
+    </div>
+    <div style="width: 69px; height: 450px; border-left: 1px solid white;" class="colcarou-item inactive" id="colcarou-item-2">
+        <div class="colcarou-textbox colcarou-rotate" style="width: 660px; left: 16px; position: relative; top: 315px;">
+            <h1 class="colcarou-title" style="width: 450px;">Linh Nguyen</h1>
+            <p class="colcarou-text" style="display: none;">Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+            <a href="#" class="colcarou-button" style="display: none;">Linh Nguyen</a>
+        </div>
+      <img src="https://unsplash.it/1800/1200?image=174" alt="example1" style="width: 321.667px; min-width: 825px; min-height: 450px;" class="colcarou-image">
+    </div>
+</div>
+    
+    
+    
+
+    <!-- <div class="content-section-b">
+
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading">3D Device Mockups<br>by PSDCovers</h2>
+                    <p class="lead">Turn your 2D designs into high quality, 3D product shots in seconds using free Photoshop actions by <a target="_blank" href="http://www.psdcovers.com/">PSDCovers</a>! Visit their website to download some of their awesome, free photoshop actions!</p>
+                </div>
+                <div class="col-lg-5 col-sm-pull-6  col-sm-6">
+                    <img class="img-responsive" src="img/dog.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <div class="content-section-a">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 col-sm-6">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading">Google Web Fonts and<br>Font Awesome Icons</h2>
+                    <p class="lead">This template features the 'Lato' font, part of the <a target="_blank" href="http://www.google.com/fonts">Google Web Font library</a>, as well as <a target="_blank" href="http://fontawesome.io">icons from Font Awesome</a>.</p>
+                </div>
+                <div class="col-lg-5 col-lg-offset-2 col-sm-6">
+                    <img class="img-responsive" src="img/phones.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div> -->
+    
+
+	<a  name="reviews"></a>
+    <div class="banner">
+
+       <!--  <div class="container">
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <h2>Connect to Start Bootstrap:</h2>
+                </div>
+                <div class="col-lg-6">
+                    <ul class="list-inline banner-social-buttons">
+                        <li>
+                            <a href="https://twitter.com/SBootstrap" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/IronSummitMedia/startbootstrap" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
+                        </li>
+                        <li>
+                            <a href="#" class="btn btn-default btn-lg"><i class="fa fa-linkedin fa-fw"></i> <span class="network-name">Linkedin</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>         -->
+        <!-- /.container -->
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12" data-wow-delay="0.4s">
+                    
+                        <div class="carousel slide" data-ride="carousel" id="quote-carousel">
+
+                            <div class="myCarouselHeader">
+                                <div><h2>Adventurer Reviews</h2></div>
+                            </div>
+                            <div class="carousel-inner text-center" style="padding-top: 70px;">
+                                <div class="item active">                           
+                                    <div class="row">
+                                        <div class="col-sm-8 col-sm-offset-2">
+                                            <i class="fa fa-quote-left" style="margin-right: 30px; float: left;"></i>
+                                                <p style="line-height: 2;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.                           
+                                                </p>
+                                            <i class="fa fa-quote-right" style="margin-left: 30px; margin-top: -25px; float: right;"></i>
+                                            <span class="reviewer">-Karthik</span>
+                                        </div>
+                                    </div>                          
+                                </div>
+                                <div class="item">                          
+                                    <div class="row">
+                                        <div class="col-sm-8 col-sm-offset-2">
+                                            <i class="fa fa-quote-left" style="margin-right: 30px; float: left;"></i>
+                                                <p style="line-height: 2;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.                           
+                                                </p>
+                                            <i class="fa fa-quote-right" style="margin-left: 30px; margin-top: -25px; float: right;"></i>
+                                            <span class="reviewer">-Karthik</span>
+                                        </div>
+                                    </div>                          
+                                </div>
+                                <div class="item">                          
+                                    <div class="row">
+                                        <div class="col-sm-8 col-sm-offset-2">
+                                            <i class="fa fa-quote-left" style="margin-right: 30px; float: left;"></i>
+                                                <p style="line-height: 2;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.                           
+                                                </p>
+                                            <i class="fa fa-quote-right" style="margin-left: 30px; margin-top: -25px; float: right;"></i>
+                                            <span class="reviewer">-Karthik</span>
+                                        </div>
+                                    </div>                          
+                                </div>                                
+
+                                <a data-slide="prev" href="#quote-carousel" class="left carousel-control" style="margin-left: -60px;"><span class="glyphicon glyphicon-chevron-left"></span></a>
+                                <a data-slide="next" href="#quote-carousel" class="right carousel-control" style="margin-right: -60px;"><span class="glyphicon glyphicon-chevron-right"></span></a>
+                            </div>
+                            
+                            <ol class="carousel-indicators">
+                                <li class="active" data-target="#quote-carousel" data-slide-to="0" >
+                                    <img class="img-responsive " src="https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg" alt="">
+                                </li>
+                                <li data-target="#quote-carousel" data-slide-to="1">
+                                    <img class="img-responsive" src="https://s3.amazonaws.com/uifaces/faces/twitter/rssems/128.jpg" alt="">
+                                </li>
+                                <li data-target="#quote-carousel" data-slide-to="2">
+                                    <img class="img-responsive" src="https://s3.amazonaws.com/uifaces/faces/twitter/adellecharles/128.jpg" alt="">
+                                </li>
+                            </ol>                   
+                        </div>
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+    <!-- /.banner -->
+
+    <!-- Footer -->
+    <footer>
+        <div class="container"  align="center">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="list-inline">
+                        <li>
+                            <a href="#">Home</a>
+                        </li>
+                        <li class="footer-menu-divider">&sdot;</li>
+                        <li>
+                            <a href="#about">About</a>
+                        </li>
+                        
+                    </ul>
+                    <p class="copyright text-muted small">Copyright &copy; Your Company 2014. All Rights Reserved</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="js/myCustomAccordion.js"></script>
+    
+    <script>
+    function initMap() {
+      /* var map = new google.maps.Map(document.getElementById('map'), {
+        center: {
+          lat: 37.336079,
+          lng: -121.880453
+        },
+        zoom: 13
+      }); */
+      var geocoder = new google.maps.Geocoder();
+
+      var input = document.getElementById('locationInput');
+      var autocomplete = new google.maps.places.Autocomplete(input);
+      /* autocomplete.bindTo('bounds', map); */
+
+      document.getElementById('locationSubmit').addEventListener('click', function () {
+        geocodeAddress(geocoder, map);
+      });
+
+      function geocodeAddress(geocoder, resultsMap) {
+        var address = document.getElementById('locationInput').value;
+        console.log(address);
+        geocoder.geocode({
+          'address': address
+        }, function (results, status) {
+          if (status === 'OK') {
+            resultsMap.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({
+              map: resultsMap,
+              position: results[0].geometry.location
+            });
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+      }
+    }
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClDwMh7b3f8ztAmozzF22RfxP1LyBHcsM&libraries=places&callback=initMap" async defer></script>
+
+</body>
+
+</html>

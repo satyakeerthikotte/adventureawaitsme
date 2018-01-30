@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <link rel="icon" href="img/favicon.ico">
+  <title>Adventure Waits Me | WebReactor</title>
+  <meta name="author" content="Preeti Patil, Ankit Rajput, Karthik Sadanand, Satya Keerthi, Taeho Kim" />
+  <meta name="description" content="extreme sports adventure & location from hiking, mountaineering, scuba diving, skydiving, rock climbing, surfing, rafting, and more. Venues include indoor and outdoor.">
+  <meta name="keywords" content="extreme sport, xtreme,, adventure, mountain, hiking, mountanineering, scuba, sky diving, rock climbing, surfing, rafting, indoor, outdoor, national park">
+  <link rel="canonical" href="https://www.adventurewaits.me/">
+  <meta name="google-site-verification" content="Ge96iJwvX5ky5hxwpE46jBuYu8AL0HvMSE4lNhkXbNA" />
+
+  <!-- Google Analytics -->
+  <script>
+    window.ga = window.ga || function () {
+      (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-88232138-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  <script async src="https://www.google-analytics.com/analytics.js"></script>
+  <!-- End Google Analytics -->
+
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/landing-page.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+<!-- <script type="text/javascript" src="js/jquery.js"></script> -->
+
+
+<style type="text/css">
+.borderless td, .borderless th {
+	border: none !important;
+}
+</style>
+
+<script>
+	$(document).ready(function() {
+
+		$("#adminSignIn").submit(function(e) {
+			e.preventDefault();
+			adminSignIn();
+		});
+
+		$('#myModal').modal('show');
+	});
+
+	function adminSignIn() {
+
+		$.ajax({
+			type : "POST",
+			url : "/adminsignin",
+			data : $("#adminSignIn").serialize(),
+			success : function(data) {
+			},
+			statusCode : {
+				200 : function() {
+				},
+				400 : function() {
+					alert("WRONG CREDENTIALS");
+				},
+				500 : function() {
+					alert("Server error. Please get back later");
+				},
+				404 : function() {
+					alert("Resouce not Found. Please try later");
+				},
+				409 : function() {
+					alert("User Already Exists");
+				}
+			},
+			complete : function(e) {
+				if (e.status == 200) {
+					window.location.href = "/adminpage";
+				}
+			}
+		});
+	}
+</script>
+
+</head>
+<body>
+	<div class="container">
+		<header>
+			<!-- <h2>USER PAGE</h2> -->
+		</header>
+		<div class="panel-group">
+			<!-- 
+			<form id="adminSignIn">
+				Admin Username<input name="userName"/>
+				Admin Password<input name = "password"/>
+				<input type="submit" value="signin"/>
+			</form> -->
+
+		</div>
+		<!-- <a href="#signup" style="color: black;" data-toggle="modal"
+			data-target="#myModal">SignIn/Signup</a> -->
+
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<ul class="nav nav-tabs nav-justified">
+						<li class="active"><a href="#tab1" data-toggle="tab"
+							style="line-height: 35px;">Restricted Area</a></li>
+					</ul>
+					<div class="tab-content">
+						<div id="tab1" class="tab-pane fade in active">
+							<div class="modal-body">
+								<form id="adminSignIn" role="form">
+									<div class="form-group">
+										<div class="left-inner-addon">
+											<i class="glyphicon glyphicon-envelope"></i> <input
+												type="text" class="form-control" id="email" name="userName"
+												placeholder="Email">
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="left-inner-addon">
+											<i class="glyphicon glyphicon-lock"></i> <input type="text"
+												class="form-control" id="password" name="password"
+												placeholder="Password">
+										</div>
+									</div>
+									<button type="submit" class="btn btn-danger btn-block"
+										style="width: 100%; height: 52px; margin-top: 30px;">
+										Signin</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>

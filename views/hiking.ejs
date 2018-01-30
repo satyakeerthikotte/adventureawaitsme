@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	 <link rel="icon" href="img/favicon.ico">
+  <title>Adventure Waits Me | WebReactor</title>
+  <meta name="author" content="Preeti Patil, Ankit Rajput, Karthik Sadanand, Satya Keerthi, Taeho Kim" />
+  <meta name="description" content="extreme sports adventure & location from hiking, mountaineering, scuba diving, skydiving, rock climbing, surfing, rafting, and more. Venues include indoor and outdoor.">
+  <meta name="keywords" content="extreme sport, xtreme,, adventure, mountain, hiking, mountanineering, scuba, sky diving, rock climbing, surfing, rafting, indoor, outdoor, national park">
+  <link rel="canonical" href="https://www.adventurewaits.me/">
+  <meta name="google-site-verification" content="Ge96iJwvX5ky5hxwpE46jBuYu8AL0HvMSE4lNhkXbNA" />
+
+  <!-- Google Analytics -->
+  <script>
+    window.ga = window.ga || function () {
+      (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-88232138-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  <script async src="https://www.google-analytics.com/analytics.js"></script>
+  <!-- End Google Analytics -->
+
+
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/landing-page.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet" type="text/css">
+	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+	<script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+	<script type="text/javascript">
+		function getUserInfo() {
+
+			$.ajax({
+				type: "GET",
+				url: "/getuserinfo",
+				success: function (data) {},
+				statusCode: {
+					200: function () {
+						//alert("USER CREATED");
+					},
+					500: function () {
+						//alert("Server error. Please get back later");
+					},
+					404: function () {
+						//alert("Resouce not Found. Please try later");
+					},
+					409: function () {
+						//alert("User Already Exists");
+					}
+				},
+				complete: function (e) {
+					if (e.status == 200) {
+						var userInfo = JSON.parse(e.responseText);
+						if (userInfo[0].fullName != null || userInfo[0].fullName != "")
+							$("#userInfo").html(userInfo[0].fullName);
+						$("#signOutLabel").html("Sign Out");
+					}
+				}
+			});
+		}
+
+
+		function getAllGroups() {
+
+			$.ajax({
+				type: "GET",
+				url: "/getallgroups",
+				success: function (data) {},
+				statusCode: {
+					200: function () {
+						////alert("USER CREATED");
+					},
+					500: function () {
+						//alert("Server error. Please get back later");
+					},
+					404: function () {
+						//alert("Resouce not Found. Please try later");
+					},
+					409: function () {
+						//alert("User Already Exists");
+					}
+				},
+				complete: function (e) {
+					if (e.status == 200) {
+						var allGroups = JSON.parse(e.responseText);
+						//console.log("hj " + JSON.stringify(allGroups));
+						var sp = localStorage.getItem("searchedSport").replace(/\s/g, '').toLowerCase();
+
+						for (var i in allGroups) {
+
+							if (allGroups[i].groupCategory.toLowerCase() == sp) {
+								//console.log("IINN");
+								$("#groupListGroup").append("<a href='/group/" + allGroups[i].groupid + "' class='list-group-item list-group-item-action'><span class='fa fa-users' aria-hidden='true'></span><h5 class='list-group-item-heading' style='display: inline'>&nbsp;" + allGroups[i].groupName + "</h5><p class='list-group-item-text' style='padding-top:10px;'>" + allGroups[i].groupDescription + "</p></a>");
+							}
+						}
+					}
+				}
+			});
+		}
+
+		$(document).ready(function () {
+			getUserInfo();
+			getAllGroups();
+		});
+	</script>
+
+
+</head>
+
+<body>
+
+	<!-- Navigation -->
+	<nav class="navbar navbar-inverse navbar-fixed-top topnav" role="navigation" style="opacity: 0.3">
+		<div class="container topnav">
+			<div class="navbar-header">
+				<a class="navbar-brand topnav" href="/"	style="color: white; font-size: 30px; font-family: 'Orbitron', sans-serif;">ADVENTURE</a>
+			</div>
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav navbar-right">
+					<li> <a href="/sports" style="color: white;">Sports</a> </li>
+        			<li> <a href="/places" style="color: white;">Places</a> </li>
+					<li><a href="/userpage" style="color: white;"> <label
+							id="userInfo">SignIn/Signup</label>
+					</a></li>
+					<li><a href="/signout" style="color: white;"> <label
+							id="signOutLabel"></label>
+					</a></li>
+					<li>
+						<a>
+						<div id="google_translate_element"></div>
+						</a>
+						<script type="text/javascript">
+							function googleTranslateElementInit() {
+							  new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'es,fr', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+							}
+						</script>
+						<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>        
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<ul class="nav nav-tabs nav-justified">
+					<li class="active"><a href="#tab1" data-toggle="tab" style="line-height: 35px;">SignIn</a></li>
+					<li><a href="#tab2" data-toggle="tab" style="line-height: 35px;">New User</a></li>
+				</ul>
+				<div class="tab-content">
+					<div id="tab1" class="tab-pane fade in active">
+						<div class="modal-body">
+							<form role="form">
+								<div class="form-group">
+									<div class="left-inner-addon">
+										<i class="glyphicon glyphicon-envelope"></i>
+										<input type="text" class="form-control" id="email" placeholder="Email">
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="left-inner-addon">
+										<i class="glyphicon glyphicon-lock"></i>
+										<input type="text" class="form-control" id="psw" placeholder="Password">
+									</div>
+								</div>
+								<button type="submit" class="btn btn-success btn-block" style="width: 100%; height: 52px; margin-top: 30px;">
+									Signin</button>
+							</form>
+						</div>
+					</div>
+					<div id="tab2" class="tab-pane fade">
+						<div class="modal-body">
+							<form role="form">
+								<div class="form-group">
+									<div class="left-inner-addon">
+										<i class="glyphicon glyphicon-envelope"></i>
+										<input type="text" class="form-control" id="Signemail" placeholder="Email">
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="left-inner-addon">
+										<i class="glyphicon glyphicon-user"></i>
+										<input type="text" class="form-control" id="fullName" placeholder="Name">
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="left-inner-addon">
+										<i class="glyphicon glyphicon-lock"></i>
+										<input type="text" class="form-control" id="password" placeholder="Password">
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="left-inner-addon">
+										<i class="glyphicon glyphicon-lock"></i>
+										<input type="text" class="form-control" id="confirmPassword" placeholder="Confirm Password">
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="left-inner-addon">
+										<i class="glyphicon glyphicon-lock"></i>
+										<input type="text" class="form-control" id="userLocation" placeholder="Location (Optional)">
+									</div>
+								</div>
+								<button type="submit" class="btn btn-success btn-block" style="width: 100%; height: 52px; margin-top: 30px;">
+									Create Account</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Map -->
+	<a name="about"></a>
+	<div class="intro-header intro-headerOtherPage">
+		<div id="map" style="height: 650px; width: 100%; background-color: #000000"></div>
+	</div>
+
+	<!-- Image Carousel -->
+
+	<div class="content-section-a" style="min-height: 600px;">
+		<div class="container" style="min-height: inherit;">
+			<div class="row">
+				<div align="center">
+					<h2 class="section-heading">Hiking</h2>
+					<hr class="section-heading-spacer" style="float: none;">
+					<div class="clearfix"></div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+
+					<div id="carousel1" class="carousel slide" data-ride="carousel">
+						<ol class="carousel-indicators">
+							<li data-target="#carousel1" data-slide-to="0" class="active"></li>
+							<li data-target="#carousel1" data-slide-to="1"></li>
+							<li data-target="#carousel1" data-slide-to="2"></li>
+							<li data-target="#carousel1" data-slide-to="3"></li>
+							<li data-target="#carousel1" data-slide-to="4"></li>
+							<li data-target="#carousel1" data-slide-to="5"></li>
+							<li data-target="#carousel1" data-slide-to="6"></li>
+						</ol>
+						<div class="carousel-inner" role="listbox">
+							<div class="item active">
+								<img src="images/Carousel/hiking/1.jpg" alt="Third slide image" class="center-block" style="width: 100%; height: 700px">
+								<div class="carousel-caption">
+									<h3>In every walk with nature, one receives far more than he seeks</h3>
+									<p>John Muir</p>
+								</div>
+							</div>
+							<div class="item">
+								<img src="images/Carousel/hiking/2.jpg" alt="Second slide image" class="center-block" style="width: 100%; height: 700px">
+								<div class="carousel-caption">
+									<h3>Its not the mountain we conquer but ourselves</h3>
+									<p>Edmund Hillary</p>
+								</div>
+							</div>
+							<div class="item">
+								<img src="images/Carousel/hiking/3.jpg" alt="Third slide image" class="center-block" style="width: 100%; height: 700px">
+								<div class="carousel-caption">
+									<h3>Of all the paths you take in life, make sure a few of them are dirt</h3>
+									<p>Webreactor</p>
+								</div>
+							</div>
+							<div class="item">
+								<img src="images/Carousel/hiking/4.jpg" alt="Third slide image" class="center-block" style="width: 100%; height: 700px">
+								<div class="carousel-caption">
+									<h3>Those who contemplate the beauty of the earth find reserves of strength that will endure as long as life lasts</h3>
+									<p>Rachel Carlson</p>
+								</div>
+							</div>
+							<div class="item">
+								<img src="images/Carousel/hiking/5.jpg" alt="Third slide image" class="center-block" style="width: 100%; height: 700px">
+								<div class="carousel-caption">
+									<h3>Without new experiences, something inside of us sleeps. The sleeper must awaken</h3>
+									<p>Frank Herbert</p>
+								</div>
+							</div>
+							<div class="item">
+								<img src="images/Carousel/hiking/6.jpg" alt="First slide image" class="center-block" style="width: 100%; height: 700px">
+								<div class="carousel-caption">
+									<h3>I like being near the top of a mountain. One can’t get lost here</h3>
+									<p>Wislawa Szymborska</p>
+								</div>
+							</div>
+							<div class="item">
+								<img src="images/Carousel/hiking/7.jpg" alt="Third slide image" class="center-block" style="width: 100%; height: 700px">
+								<div class="carousel-caption">
+									<h3>Each fresh peak ascended teaches something</h3>
+									<p>Sir Martin Convay</p>
+								</div>
+							</div>
+						</div>
+						<a class="left carousel-control" href="#carousel1" role="button" data-slide="prev"><span
+							class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span><span
+							class="sr-only">Previous</span></a><a class="right carousel-control" href="#carousel1" role="button" data-slide="next"><span
+							class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><span
+							class="sr-only">Next</span></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--GROUPS AND THINGS-->
+
+	<div class="content-section-a" style="min-height: 600px;">
+		<div class="container" style="min-height: inherit;">
+			<div class="row">
+				<div class="col-lg-6">
+					<div align="center">
+						<h2 class="section-heading">Groups</h2>
+						<hr class="section-heading-spacer" style="float: none;">
+						<div class="clearfix"></div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div align="center">
+						<h2 class="section-heading">Essential Things</h2>
+						<hr class="section-heading-spacer" style="float: none;">
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="well">
+						<div class="list-group" id="groupListGroup">
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="well">
+						<div class="list-group">
+							<a class='list-group-item list-group-item-action'>
+								<span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+								<h5 class="list-group-item-heading" style="display: inline">Trail Map</h5>
+							</a>
+							<a class='list-group-item list-group-item-action'>
+								<span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+								<h5 class="list-group-item-heading" style="display: inline">Compass</h5>
+							</a>
+							<a class='list-group-item list-group-item-action'>
+								<span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+								<h5 class="list-group-item-heading" style="display: inline">First Aid</h5>
+							</a>
+							<a class='list-group-item list-group-item-action'>
+								<span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+								<h5 class="list-group-item-heading" style="display: inline">Tent</h5>
+							</a>
+							<a class='list-group-item list-group-item-action'>
+								<span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+								<h5 class="list-group-item-heading" style="display: inline">Sleeping Bag</h5>
+							</a>
+							<a class='list-group-item list-group-item-action'>
+								<span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+								<h5 class="list-group-item-heading" style="display: inline">Knife</h5>
+							</a>
+							<a class='list-group-item list-group-item-action'>
+								<span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+								<h5 class="list-group-item-heading" style="display: inline">Flashlight</h5>
+							</a>
+							<a class='list-group-item list-group-item-action'>
+								<span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+								<h5 class="list-group-item-heading" style="display: inline">Watch</h5>
+							</a>
+							<a class='list-group-item list-group-item-action'>
+								<span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+								<h5 class="list-group-item-heading" style="display: inline">Binoculars</h5>
+							</a>
+							<a class='list-group-item list-group-item-action'>
+								<span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+								<h5 class="list-group-item-heading" style="display: inline">Whistle</h5>
+							</a>
+							<a class='list-group-item list-group-item-action'>
+								<span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+								<h5 class="list-group-item-heading" style="display: inline">Sun Protection</h5>
+							</a>
+							<a class='list-group-item list-group-item-action'>
+								<span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+								<h5 class="list-group-item-heading" style="display: inline">Insect Repellent</h5>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+		</div>
+	</div>
+
+	<!--Reviews-->
+
+	<div class="content-section-a" style="min-height: 600px;">
+		<div class="container" style="min-height: inherit;">
+			<div class="row">
+
+				<div class="col-lg-12">
+					<div align="center">
+						<h2 class="section-heading">Adventurer Reviews</h2>
+						<hr class="section-heading-spacer" style="float: none;">
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+
+				<div class="col-lg-12">
+
+
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="well">
+										<div class="row">
+											<div class="col-lg-3"><img src="images/profile/1_Emma.jpg" class="img-responsive" alt="Placeholder image">
+											</div>
+											<div class="col-lg-9">
+												<h3> Emma</h3>
+												<img src="images/Raiting/5.gif" class="img-responsive" alt="5 rating">
+												<p>One of the best places to hike in the country. We went in late but the officials in the area made sure we got all the equipment we needed. The directions to the place was pretty straight forward. Will recommend this place if you love hiking.</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="well">
+										<div class="row">
+											<div class="col-lg-3"><img src="images/profile/2_william.jpg" class="img-responsive" alt="Placeholder image">
+											</div>
+											<div class="col-lg-9">
+												<h3> William</h3>
+												<img src="images/Raiting/4_5.gif" class="img-responsive" alt="4.5 rating">
+												<p>Simply Breathtaking! The view on the top was simply amazing! It was worth all the wait! I would definitely recommend this if you are a nature lover!</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="well">
+										<div class="row">
+											<div class="col-lg-3"><img src="images/profile/3_noah.jpg" class="img-responsive" alt="Placeholder image">
+											</div>
+											<div class="col-lg-9">
+												<h3>Noah</h3>
+												<img src="images/Raiting/4.gif" class="img-responsive" alt="4 rating">
+												<p>I have no words for the thrill that you get when you reach the top! Must try for all! Easily accessible from the freeway.  The park charges you a lot for the parking though, which is a bummer! Overall a great place to hike, with not a challenging terrain.</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="well">
+										<div class="row">
+											<div class="col-lg-3"><img src="images/profile/4_Olivia.jpg" class="img-responsive" alt="Placeholder image">
+											</div>
+											<div class="col-lg-9">
+												<h3>Olivia</h3>
+												<img src="images/Raiting/3.gif" class="img-responsive" alt="3 rating">
+												<p>The terrain is rocky, and hiking shoes is recommended. You can camp at the top of the hill to experience the amazing sunset this place is known for. The reservation for the camp sites is easy. Just that it gets overbooked and you need to plan way in advance!</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="well">
+										<div class="row">
+											<div class="col-lg-3"><img src="images/profile/5_Aarvi.jpg" class="img-responsive" alt="Placeholder image">
+											</div>
+											<div class="col-lg-9">
+												<h3>Aarvi</h3>
+												<img src="images/Raiting/3_5.gif" class="img-responsive" alt="3.5 rating">
+												<p>A must try place! An adventure junkie like me would definitely come back to experience the breathtaking trail and thrill that this trail gives you! Not to difficult to locate from the freeway. Take the Minila pass exit and the directions are pretty straightforward! Will be back soon!!</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+		</div>
+	</div>
+
+	<script>
+		function initMap() {
+			var uluru = {
+				lat: 37.542571,
+				lng: -121.993037
+			};
+
+			var map = new google.maps.Map(document.getElementById('map'), {
+				zoom: 4,
+				center: uluru
+			});
+
+			getMapData();
+
+			var icons = {
+				icon: 'img/icons/hiking.png'
+			};
+
+
+			function addMarker(feature) {
+				if (feature.type.toUpperCase() == localStorage.getItem(
+						"searchedSport").toUpperCase())
+					var marker = new google.maps.Marker({
+						location: feature.address,
+						position: new google.maps.LatLng(feature.latitude,
+							feature.longitude),
+						icon: icons.icon,
+						map: map
+					});
+
+				var contentString = '<div id="content" style="color:black;">' + '<div id="siteNotice">' + '</div>' + '<h4 id="firstHeading" class="firstHeading">' + feature.type.toUpperCase() + '</h4>' + '<div id="bodyContent">' + '<p style="text-align:left;"><b>Sport: </b>' + feature.type + '<br>' + '<b>Name of the Place: </b>' + feature.name + '<br>' + '<b>Address of the Place: </b>' + feature.address + '</p>' + '</div>' + '</div>';
+
+				var infowindow = new google.maps.InfoWindow({
+					content: contentString
+				});
+				marker.addListener('click', function () {
+					infowindow.open(map, marker);
+					maxWidth: 250
+
+				});
+			}
+
+			function getMapData() {
+
+				var myData = {};
+				myData.searchedSport = localStorage.getItem("searchedSport");
+
+				$.ajax({
+					url: "/sports",
+					datatype: "JSON",
+					data: myData,
+					type: "POST",
+					success: function (data) {
+						if (data.statusCode == 200) {
+
+							var newData = data.data;
+							var j = 0;
+							for (var i = 0; i < newData.length; i++) {
+
+								if (newData[i].type.toUpperCase() == myData.searchedSport.toUpperCase()) {
+
+									//console.log("FeaTURE IS" + "                  " + JSON.stringify(newData[i].type));
+
+									addMarker(newData[i]);
+									//console.log(++j);
+								}
+							}
+						}
+					},
+					error: function () {
+						//alert("error in html");
+					}
+				});
+
+			}
+		}
+	</script>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2_EK0wdicPt2S1AZhxBt1Alt3C8TG5aY&callback=initMap"></script>
+
+	 <!-- Footer -->
+  <footer>
+    <div class="container" align="center">
+      <div class="row">
+        <div class="col-lg-12">
+          <ul class="list-inline">
+            <li><a href="#">Home</a></li>
+            <li class="footer-menu-divider">&sdot;</li>
+            <li><a href="#sports">Sports</a></li>
+            <li class="footer-menu-divider">&sdot;</li>
+            <li><a href="#reviews">Reviews</a></li>
+            <li class="footer-menu-divider">&sdot;</li>
+            <li><a href="#signup" data-toggle="modal" data-target="#myModal">SignIn/Signup</a></li>
+          </ul>
+          <p class="copyright text-muted small">Copyright &copy; WebReactors 2016. All Rights Reserved</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- jQuery -->
+  <script src="js/jquery.js"></script>
+  <script src="js/customize.js"></script>
+
+	<script src="js/jquery-1.11.3.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/myCustomAccordion.js"></script>
+</body>
+
+</html>

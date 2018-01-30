@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="Satya Keerthi Kotte, Ankit Rajput">
+<title>Groups Page</title>
+<!-- Bootstrap Core CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!-- Custom CSS -->
+<link href="../css/landing-page.css" rel="stylesheet">
+<link href="../css/style.css" rel="stylesheet">
+<link href="../css/todo.css" rel="stylesheet">
+<link href="../css/groups-page.css" rel="stylesheet">
+<!-- Custom Fonts -->
+<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+.logo-small {
+	color: #f4511e;
+	font-size: 50px;
+}
+</style>
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-fixed-top topnav" role="navigation" style="opacity: 0.5">
+  <div class="container topnav">
+    <div class="navbar-header"> <a class="navbar-brand topnav" href="#" style="color: white; font-size: 30px">ADVENTURE</a> </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li> <a href="#sports" style="color: white;">Sports</a> </li>
+        <li> <a href="#reviews" style="color: white;">Reviews</a> </li>
+        <li> <a href="#signup" style="color: white;" data-toggle="modal" data-target="#myModal">SignIn/Signup</a> </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- SignIn Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <ul class="nav nav-tabs nav-justified">
+        <li class="active"><a href="#tab1" data-toggle="tab" style="line-height: 35px;">SignIn</a></li>
+        <li><a href="#tab2" data-toggle="tab" style="line-height: 35px;">New User</a></li>
+      </ul>
+      <div class="tab-content">
+        <div id="tab1" class="tab-pane fade in active">
+          <div class="modal-body">
+            <form role="form">
+              <div class="form-group">
+                <div class="left-inner-addon"> <i class="glyphicon glyphicon-envelope"></i>
+                  <input type="text" class="form-control" id="email" placeholder="Email">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="left-inner-addon"> <i class="glyphicon glyphicon-lock"></i>
+                  <input type="text" class="form-control" id="psw" placeholder="Password">
+                </div>
+              </div>
+              <button type="submit" class="btn btn-success btn-block" style="width: 100%; height: 52px; margin-top: 30px;"> Signin</button>
+            </form>
+          </div>
+        </div>
+        <div id="tab2" class="tab-pane fade">
+          <div class="modal-body">
+            <form role="form">
+              <div class="form-group">
+                <div class="left-inner-addon"> <i class="glyphicon glyphicon-envelope"></i>
+                  <input type="text" class="form-control" id="email" placeholder="Email">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="left-inner-addon"> <i class="glyphicon glyphicon-user"></i>
+                  <input type="text" class="form-control" id="fullName" placeholder="Name">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="left-inner-addon"> <i class="glyphicon glyphicon-lock"></i>
+                  <input type="text" class="form-control" id="password" placeholder="Password">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="left-inner-addon"> <i class="glyphicon glyphicon-lock"></i>
+                  <input type="text" class="form-control" id="confirmPassword" placeholder="Confirm Password">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="left-inner-addon"> <i class="glyphicon glyphicon-lock"></i>
+                  <input type="text" class="form-control" id="userLocation" placeholder="Location (Optional)">
+                </div>
+              </div>
+              <button type="submit" class="btn btn-success btn-block" style="width: 100%; height: 52px; margin-top: 30px;"> Create Account</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Body Content -->
+<div class="container customBackground">
+  <div class="row" style="padding-top:80px;"> </div>
+  <!--<h1>You can have fun alone</h1>
+  <h1 align="center" style="font:brush-script-std; ">But to be Memorable</h1>
+  <h1 align="right">You need a gang!!</h1>-->
+  <div class="row">
+    <div class="col-lg-12"> 
+      <!--<div style="background-color:rgba(248, 247, 216, 0.7); width:100%; border-radius:10px;">-->
+      <div style="padding-left:50px; padding-right:50px; padding-bottom:50px; padding-bottom:50px;" > <br>
+        <span class="fa fa-users logo-small" ></span>
+        <h1 id="groupName" style="display:inline">Group Name</h1>
+        <!--Group Info-->
+        <div align="center">
+          <h2 class="section-heading">About</h2>
+          <hr class="section-heading-spacer" style="float: none;">
+          <div class="clearfix"></div>
+        </div>
+        <div class="panel-group">
+          <div class="panel panel-default slideanim">
+            <div class="panel-heading">
+              <h4 class="panel-title"> <a data-toggle="collapse" href="#collapse1">CURRENT MEMBERS</a> </h4>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <table id="groupDataTable" class="table">
+                  <thead class="thead-inverse">
+                    <tr>
+                      <th>group user email</th>
+                      <th>group status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="panel panel-default slideanim">
+            <div class="panel-heading">
+              <h4 class="panel-title"> <a data-toggle="collapse" href="#collapse2">PENDING MEMBERS</a> </h4>
+            </div>
+            <div id="collapse2" class="panel-collapse collapse">
+              <div class="panel-body">
+                <table id="pendingDataTable" class="table">
+                  <thead class="thead-inverse">
+                    <tr>
+                      <th>group user email</th>
+                      <th>status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <!--To Do-->
+        <div align="center">
+          <h2 class="section-heading">Tasks To Do</h2>
+          <span class="glyphicon glyphicon-check logo-small slide" ></span>
+          <hr class="section-heading-spacer" style="float: none;">
+          <div class="clearfix"></div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="well todolist not-done" id="divToDO">
+              <h1>Todos</h1>
+              <form id="createThingForm">
+                <input type="text" class="form-control add-todo" id="newThing" name="thing" placeholder="Add todo">
+                <button type="submit" class="btn btn-success" style="margin-top: 20px;">Create To Do</button>
+              </form>
+              <hr>
+              <ul id="sortable" class="list-unstyled">
+                <li class="ui-state-default">
+                  <div class="checkbox"> 
+                  </div>
+                </li>
+              </ul>
+              <div class="todo-footer1"> <strong><span class="count-todos"></span></strong> Items Left </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="well todolist not-done slideanim" style="width:100%"> <img src="images/userbac1.jpeg" alt="img" id="imgToDo" style="width:100%"> </div>
+          </div>
+        </div>
+        <!--Tasks Completed-->
+        <div align="center">
+          <h2 class="section-heading" >Tasks Completed</h2>
+          <span class="glyphicon glyphicon-thumbs-up logo-small slideanim" ></span>
+          <hr class="section-heading-spacer" style="float: none;">
+          <div class="clearfix"></div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="well todolist slideanim" style="width:100%"> <img src="images/groupbac.jpg" alt="img" id="imgCompleted" style="width:100%"> </div>
+          </div>
+          <div class="col-md-6">
+            <div class="well todolist" id="divCompleted">
+              <h1>Already Done</h1>
+              <ul id="done-items" class="list-unstyled">
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--  </div>--> 
+    </div>
+  </div>
+  <div class="row" style="padding-bottom:80px;"> </div>
+</div>
+<!-- Footer -->
+<footer style="background-color:transparent">
+  <div class="container"  align="center">
+    <div class="row">
+      <div class="col-lg-12">
+        <ul class="list-inline">
+          <li> <a href="index.html">Home</a> </li>
+          <li class="footer-menu-divider">&sdot;</li>
+          <li> <a href="#about">About</a> </li>
+        </ul>
+        <p class="copyright text-muted small">Copyright &copy; WebReactors 2016. All Rights Reserved</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="../js/jquery.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> 
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script> 
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+<script type="text/javascript" src="../js/todo.js"></script> 
+<script>
+//Slide effect
+$(document).ready(function(){
+  $(window).scroll(function() {
+    $(".slideanim").each(function(){
+      var pos = $(this).offset().top;
+
+      var winTop = $(window).scrollTop();
+        if (pos < winTop + 600) {
+          $(this).addClass("slide");
+        }
+    });
+  });
+})
+//dynamic assign of height
+$(document).ready(function(){
+ var todoDIv=document.getElementById('divToDO');
+ var todoDivHeight=todoDIv.clientHeight;
+ document.getElementById('imgToDo').height=todoDivHeight;
+ var completedDIv=document.getElementById('divCompleted');
+ var completedDivHeight=completedDIv.clientHeight;
+ document.getElementById('imgCompleted').height=completedDivHeight;
+})
+
+
+	$(document).ready(function() {
+		getGroupInfo();
+		getGroupMembers();
+		getGroupPendingMembers();
+		
+		$("#createThingForm").submit(function(e) {			
+			e.preventDefault();			
+			createThing();
+		});		
+		getThings();
+		getPendingThings();
+	});
+	
+	function createThing(){
+		
+		//alert("creating group");
+		$.ajax({	
+			type: "POST",
+			url: "/creatething",
+			data: $("#createThingForm").serialize(), 		
+			success: function(data){				 
+			},
+			statusCode: {
+				200: function(){
+					//alert("TODO CREATED");
+				},
+				400: function(){alert("WRONG CREDENTIALS");	},
+				500: function(){alert("Server error. Please get back later");},
+				404: function(){alert("Resouce not Found. Please try later");},
+				409: function(){alert("User Already Exists");}
+			},
+			complete: function(e){
+				if(e.status == 200)
+					var todo = $("#newThing").val();
+					createTodo(todo); 
+	            	countTodos();
+					//window.location.reload();				
+			}
+		});
+	}
+	
+	function getThings() {
+		
+		$.ajax({
+			type : "GET",
+			url : "/getthings",
+			success : function(data) {
+			},
+			statusCode : {
+				200 : function() {
+					//alert("group USERS retrieved");
+				},
+				400 : function() {alert("WRONG CREDENTIALS");},
+				500 : function() {alert("Server error. Please get back later");},
+				404 : function() {alert("Resouce not Found. Please try later");},
+				409 : function() {alert("User Already Exists");}
+			},
+			complete : function(e) {
+				if (e.status == 200) {
+					var things = JSON.parse(e.responseText);
+					console.log("things " + JSON.stringify(things));
+					drawThingTable(things);
+				}
+			}
+		});
+	}
+	
+	function drawThingTable(data) {
+		for ( var i in data) {
+			//drawThingsRow(data[i]);
+			done(data[i].thing, data[i].collector);
+		}
+		countTodos();
+	}
+
+	function drawThingsRow(rowData) {
+		console.log("row " + rowData);
+		var row = $("<tr />");
+		$("#thingsTable").html("");
+		$("#thingsTable").append(row);
+		row.append($("<td>" + rowData.thing + "</td>"));				
+		row.append($("<td>" + rowData.collector + "</td>"));
+	}
+	
+	function getPendingThings() {
+		
+		$.ajax({
+			type : "GET",
+			url : "/getpendingthings",
+			success : function(data) {
+			},
+			statusCode : {
+				200 : function() {
+					//alert("group USERS retrieved");
+				},
+				400 : function() {alert("WRONG CREDENTIALS");},
+				500 : function() {alert("Server error. Please get back later");},
+				404 : function() {alert("Resouce not Found. Please try later");},
+				409 : function() {alert("User Already Exists");}
+			},
+			complete : function(e) {
+				if (e.status == 200) {
+					var pendingThings = JSON.parse(e.responseText);
+					console.log("pendings things " + JSON.stringify(pendingThings));
+					//alert(JSON.stringify(groupMembers));
+					drawPendingThingTable(pendingThings);
+				}
+			}
+		});
+	}
+	
+	function drawPendingThingTable(data) {
+		for ( var i in data) {
+			//drawPendingThingsRow(data[i]);
+			createTodo(data[i].thing, data[i].thingid);
+		}
+		countTodos();
+	}
+
+	function drawPendingThingsRow(rowData) {
+		console.log("row " + rowData);
+		var row = $("<tr />");
+		$("#pendingThingsTable").html("");
+		$("#pendingThingsTable").append(row);
+		row.append($("<td>" + rowData.thing + "</td>"));
+		row.append($("<td><button onclick='thingCollected(" + rowData.thingid + ")'>Collected</button></td>"));		
+	}
+	
+	function thingCollected(thingId) {
+		var myData = {};
+		myData.thingid = thingId;
+		
+		$.ajax({
+			type : "POST",
+			url : "/collectthing/",
+			data: myData,
+			success : function(data) {
+			},
+			statusCode : {
+				200 : function() {
+					//alert("group USERS retrieved");
+				},
+				400 : function() {alert("WRONG CREDENTIALS");},
+				500 : function() {alert("Server error. Please get back later");},
+				404 : function() {alert("Resouce not Found. Please try later");},
+				409 : function() {alert("User Already Exists");}
+			},
+			complete : function(e) {
+				if (e.status == 200) {
+					countTodos();
+					//window.location.reload();
+				}
+			}
+		});
+	}
+	
+	function getGroupInfo() {
+		
+		$.ajax({
+			type : "GET",
+			url : "/groupinfo/",
+			success : function(data) {
+			},
+			statusCode : {
+				200 : function() {
+					//alert("group USERS retrieved");
+				},
+				400 : function() {alert("WRONG CREDENTIALS");},
+				500 : function() {alert("Server error. Please get back later");},
+				404 : function() {alert("Resouce not Found. Please try later");},
+				409 : function() {alert("User Already Exists");}
+			},
+			complete : function(e) {
+				if (e.status == 200) {
+					var groupMembers = JSON.parse(e.responseText);
+					console.log("groupInfo " + JSON.stringify(groupMembers));
+					//alert(JSON.stringify(groupMembers));
+				}
+			}
+		});
+	}
+
+	function getGroupMembers() {
+
+		//alert("getting group members");
+		$.ajax({
+			type : "GET",
+			url : "/groupmembers/",
+			success : function(data) {
+			},
+			statusCode : {
+				200 : function() {
+					//alert("group USERS retrieved");
+				},
+				400 : function() {alert("WRONG CREDENTIALS");},
+				500 : function() {alert("Server error. Please get back later");},
+				404 : function() {alert("Resouce not Found. Please try later");},
+				409 : function() {alert("User Already Exists");}
+			},
+			complete : function(e) {
+				if (e.status == 200) {
+					var groupMembers = JSON.parse(e.responseText);
+					console.log("groupmembers " + JSON.stringify(groupMembers));
+					drawTable(groupMembers);
+				}
+			}
+		});
+	}
+	
+	function drawTable(data) {
+		for ( var i in data) {
+			drawRow(data[i]);
+		}
+	}
+
+	function drawRow(rowData) {
+		console.log("row " + rowData);
+		var row = $("<tr />");
+		$("#groupDataTable").html("");
+		$("#groupDataTable").append(row);
+		row.append($("<td>" + rowData.useremail + "</td>"));
+		row.append($("<td>" + rowData.status + "</td>"));		
+	}
+	
+	function getGroupPendingMembers() {
+		
+		$.ajax({
+			type : "GET",
+			url : "/grouppendingmembers/",
+			success : function(data) {
+			},
+			statusCode : {
+				200 : function() {
+					//alert("group USERS retrieved");
+				},
+				400 : function() {alert("WRONG CREDENTIALS");},
+				500 : function() {alert("Server error. Please get back later");},
+				404 : function() {alert("Resouce not Found. Please try later");},
+				409 : function() {alert("User Already Exists");}
+			},
+			complete : function(e) {
+				if (e.status == 200) {
+					var groupMembers = JSON.parse(e.responseText);
+					console.log("pending " + JSON.stringify(groupMembers));
+					drawTable1(groupMembers);
+				}
+			}
+		});
+	}
+	
+	function drawTable1(data) {
+		for ( var i in data) {
+			drawRow1(data[i]);
+		}
+	}
+
+	function drawRow1(rowData) {
+		console.log("row " + rowData);
+		var row = $("<tr />");
+		$("#pendingDataTable").html("");
+		$("#pendingDataTable").append(row);
+		row.append($("<td>" + rowData.useremail + "</td>"));
+		row.append($("<td><button onclick=approveGroupUser('" + rowData.useremail + "')>Approve</button></td>"));		
+	}
+	
+	function approveGroupUser(useremail) {
+		
+		var myData = {};
+		myData.userEmail = useremail;
+		
+		$.ajax({
+			type : "POST",
+			url : "/approvegroupuser/",	
+			data: myData,
+			success : function(data) {
+			},
+			statusCode : {
+				200 : function() {
+					//alert("group USERS retrieved");
+				},
+				400 : function() {alert("WRONG CREDENTIALS");},
+				500 : function() {alert("Server error. Please get back later");},
+				404 : function() {alert("Resouce not Found. Please try later");},
+				409 : function() {alert("User Already Exists");}
+			},
+			complete : function(e) {
+				if (e.status == 200) {
+					window.location.reload();
+				}
+			}
+		});
+	}
+	
+</script>
+</body>
+</html>

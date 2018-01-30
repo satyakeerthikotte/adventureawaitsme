@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>User Registration</title>
+	
+	<link rel="stylesheet" href="/css/bootstrap.min.css">
+	<script src="/js/jquery.js"></script>	
+	<script src="/js/bootstrap.min.js"></script>
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/landing-page.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+   	<script type="text/javascript"  src="js/jquery.js"></script>	
+		
+	<style type="text/css">
+		.borderless td, .borderless th {
+    	border: none !important;
+	}
+	</style>
+	
+	<script>
+		
+	$(document).ready(function() {		
+		$("#createGroupForm").submit(function(e) {			
+			e.preventDefault();
+			createGroup();
+		});
+	});
+	
+	function createGroup(){
+		
+		//alert("creating group");
+		$.ajax({	
+			type: "POST",
+			url: "/creategroup",
+			data: $("#createGroupForm").serialize(), 		
+			success: function(data){				 
+			},
+			statusCode: {
+				200: function(){
+					//alert("GROUP CREATED");
+				},
+				400: function(){alert("WRONG CREDENTIALS");	},
+				500: function(){alert("Server error. Please get back later");},
+				404: function(){alert("Resouce not Found. Please try later");},
+				409: function(){alert("User Already Exists");}
+			},
+			complete: function(e){				
+			}
+		});
+	}
+	
+	$(document).ready(function() {		
+		$("#joinGroupForm").submit(function(e) {			
+			e.preventDefault();
+			joinGroup();
+		});
+	});
+	
+	
+	function joinGroup(){
+		
+		//alert("joining group");
+		$.ajax({	
+			type: "POST",
+			url: "/joingroup",
+			data: $("#joinGroupForm").serialize(), 		
+			success: function(data){				 
+			},
+			statusCode: {
+				200: function(){
+					//alert("GROUP JOINED");
+				},
+				400: function(){alert("WRONG CREDENTIALS");	},
+				500: function(){alert("Server error. Please get back later");},
+				404: function(){alert("Resouce not Found. Please try later");},
+				409: function(){alert("User Already Exists");}
+			},
+			complete: function(e){				
+			}
+		});
+	}
+	
+	
+	$(document).ready(function() {		
+		$("#removeGroupUserForm").submit(function(e) {			
+			e.preventDefault();
+			removeGroupUser();
+		});
+	});
+	
+	function removeGroupUser(){
+		
+		//alert("getting group");
+		$.ajax({	
+			type: "POST",
+			url: "/removegroupuser", 
+			data: $("#removeGroupUserForm").serialize(),
+			success: function(data){				 
+			},
+			statusCode: {
+				200: function(){
+					//alert("received groups");					
+				},
+				400: function(){alert("WRONG CREDENTIALS");	},
+				500: function(){alert("Server error. Please get back later");},
+				404: function(){alert("Resouce not Found. Please try later");},
+				409: function(){alert("User Already Exists");}
+			},
+			complete: function(e){	
+				if(e.status == 200){
+					var userGroups = e.responseText;
+				}
+			}
+		});
+	}
+	
+	
+	
+	
+	
+	</script>	
+	
+</head>
+<body>
+	<div class="container">
+		<header><h2>ERROR CUSTOM</h2></header>	
+		<div class="panel-group">	
+				
+			<form id="createGroupForm">				
+				Group Name<input name="groupName"/>
+				Description<input name="groupDescription"/>
+				Admin<input name="groupAdmin"/>
+				<input type="submit" value="s">s</input>
+			</form>		
+			
+			<form id="joinGroupForm">				
+				Joiner Name<input name="userEmail"/>
+				Description<input name="groupId"/>				
+				<input type="submit" value="s">s</input>
+			</form>
+			
+			
+			LIST OF ALL GROUPS FOR A USER
+			
+			<form id="userGroupsForm">				
+								
+				<input type="submit" value="s">s</input>
+			</form>
+			
+			REMOVE USER FROM GROUP
+			
+			<form id="removeGroupUserForm">				
+				userid<input name="userEmail"/>
+				groupId<input name="groupId"/>				
+				<input type="submit" value="s">s</input>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

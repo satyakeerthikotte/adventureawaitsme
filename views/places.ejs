@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	 <link rel="icon" href="img/favicon.ico">
+  <title>Adventure Waits Me | WebReactor</title>
+  <meta name="author" content="Preeti Patil, Ankit Rajput, Karthik Sadanand, Satya Keerthi, Taeho Kim" />
+  <meta name="description" content="extreme sports adventure & location from hiking, mountaineering, scuba diving, skydiving, rock climbing, surfing, rafting, and more. Venues include indoor and outdoor.">
+  <meta name="keywords" content="extreme sport, xtreme,, adventure, mountain, hiking, mountanineering, scuba, sky diving, rock climbing, surfing, rafting, indoor, outdoor, national park">
+  <link rel="canonical" href="https://www.adventurewaits.me/">
+  <meta name="google-site-verification" content="Ge96iJwvX5ky5hxwpE46jBuYu8AL0HvMSE4lNhkXbNA" />
+
+  <!-- Google Analytics -->
+  <script>
+    window.ga = window.ga || function () {
+      (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-88232138-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  <script async src="https://www.google-analytics.com/analytics.js"></script>
+  <!-- End Google Analytics -->
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/landing-page.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet" type="text/css">
+	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+	<script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+
+	<script type="text/javascript">
+	function getUserInfo() {
+
+		$.ajax({
+			type: "GET",
+			url: "/getuserinfo",
+			success: function (data) {},
+			statusCode: {
+				200: function () {
+					//alert("USER CREATED");
+				},
+				500: function () {
+					//alert("Server error. Please get back later");
+				},
+				404: function () {
+					//alert("Resouce not Found. Please try later");
+				},
+				409: function () {
+					//alert("User Already Exists");
+				}
+			},
+			complete: function (e) {
+				if (e.status == 200) {
+					var userInfo = JSON.parse(e.responseText);
+					if (userInfo[0].fullName != null || userInfo[0].fullName != "")
+						$("#userInfo").html(userInfo[0].fullName);
+					$("#signOutLabel").html("Sign Out");
+				}
+			}
+		});
+	}
+
+		$(document).ready(function () {
+			getUserInfo();
+		});
+	</script>
+</head>
+
+
+
+<body>
+
+	<!-- Navigation -->
+	<nav class="navbar navbar-inverse navbar-fixed-top topnav" role="navigation" style="opacity: 0.3">
+		<div class="container topnav">
+			<div class="navbar-header">
+				<a class="navbar-brand topnav" href="/"	style="color: white; font-size: 30px; font-family: 'Orbitron', sans-serif;">ADVENTURE</a>
+			</div>
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav navbar-right">
+					<li> <a href="/sports" style="color: white;">Sports</a> </li>
+        			<li> <a href="/places" style="color: white;">Places</a> </li>
+					<li>
+						<a href="/userpage" style="color: white;">
+							<label id="userInfo">SignIn/Signup</label>
+						</a>
+					</li>
+					<li>
+						<a href="/signout" style="color: white;">
+							<label id="signOutLabel"></label>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<ul class="nav nav-tabs nav-justified">
+					<li class="active"><a href="#tab1" data-toggle="tab" style="line-height: 35px;">SignIn</a></li>
+					<li><a href="#tab2" data-toggle="tab" style="line-height: 35px;">New User</a></li>
+				</ul>
+				<div class="tab-content">
+					<div id="tab1" class="tab-pane fade in active">
+						<div class="modal-body">
+							<form role="form">
+								<div class="form-group">
+									<div class="left-inner-addon">
+										<i class="glyphicon glyphicon-envelope"></i>
+										<input type="text" class="form-control" id="email" placeholder="Email">
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="left-inner-addon">
+										<i class="glyphicon glyphicon-lock"></i>
+										<input type="text" class="form-control" id="psw" placeholder="Password">
+									</div>
+								</div>
+								<button type="submit" class="btn btn-success btn-block" style="width: 100%; height: 52px; margin-top: 30px;">
+									Signin</button>
+							</form>
+						</div>
+					</div>
+					<div id="tab2" class="tab-pane fade">
+						<div class="modal-body">
+							<form role="form">
+								<div class="form-group">
+									<div class="left-inner-addon">
+										<i class="glyphicon glyphicon-envelope"></i>
+										<input type="text" class="form-control" id="Signemail" placeholder="Email">
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="left-inner-addon">
+										<i class="glyphicon glyphicon-user"></i>
+										<input type="text" class="form-control" id="fullName" placeholder="Name">
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="left-inner-addon">
+										<i class="glyphicon glyphicon-lock"></i>
+										<input type="text" class="form-control" id="password" placeholder="Password">
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="left-inner-addon">
+										<i class="glyphicon glyphicon-lock"></i>
+										<input type="text" class="form-control" id="confirmPassword" placeholder="Confirm Password">
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="left-inner-addon">
+										<i class="glyphicon glyphicon-lock"></i>
+										<input type="text" class="form-control" id="userLocation" placeholder="Location (Optional)">
+									</div>
+								</div>
+								<button type="submit" class="btn btn-success btn-block" style="width: 100%; height: 52px; margin-top: 30px;">
+									Create Account</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Amchart Map -->
+	<a name="about"></a>
+	<div class="intro-header intro-headerOtherPage">
+		<div id="chartdiv" style="height: 650px; width: 100%;"></div>
+	</div>
+
+	<!--<div>
+<h3>States selected
+</h3>
+<h4 id="selStates"></h4>
+</div>-->
+
+	<!--Google Map -->
+
+	<div class="content-section-a" style="min-height: 600px;">
+		<div class="container" style="min-height: inherit;">
+			<div class="row">
+				<div align="center">
+					<h2 style="display: inline" class="section-heading">Sports
+						offered at</h2>
+					<h2 class="section-heading" style="display: inline" id="selStates">All
+						over the United States</h2>
+					<hr class="section-heading-spacer" style="float: none;">
+					<div class="clearfix"></div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<div id="map" style="height: 500px; width: 100%; background-color: #000000"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--Reviews-->
+
+	<div class="content-section-a" style="min-height: 600px;">
+		<div class="container" style="min-height: inherit;">
+			<div class="row">
+				<div align="center">
+					<h2 class="section-heading">Peer Reviews</h2>
+					<hr class="section-heading-spacer" style="float: none;">
+					<div class="clearfix"></div>
+				</div>
+			</div>
+						<div class="row">
+						<div class="col-lg-12">
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="well">
+										<div class="row">
+											<div class="col-lg-3"><img src="images/profile/4_Olivia.jpg" class="img-responsive" alt="Placeholder image">
+											</div>
+											<div class="col-lg-9">
+												<h3> Olivia</h3>
+												<img src="images/Raiting/5.gif" class="img-responsive" alt="5 rating">
+												<p>Surfing in Santa Cruz is dominated by Club Ed Surf School and Camps. The instructors are experienced and will help you learn surfing in a day. The entire package comes with the training for a week which I think is a good enough time to learn surfing! Apart from it, a great club to learn surfing at.</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="well">
+										<div class="row">
+											<div class="col-lg-3"><img src="images/profile/14_jay.jpg" class="img-responsive" alt="Placeholder image">
+											</div>
+											<div class="col-lg-9">
+												<h3> Jay</h3>
+												<img src="images/Raiting/4_5.gif" class="img-responsive" alt="4.5 rating">
+												<p>I stay in Hollister and the most popular skydiving club is on Skylane Drive. The instructors are very proficient in what they do, and are very friendly. Thet make sure that first timers dont feel the pressure of trying Sky diving. The entire package is pretty decently charged and is inclusive of the video too. Will recommend Tim who was my instructor. Was very kind and patient.</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="well">
+										<div class="row">
+											<div class="col-lg-3"><img src="images/profile/28_seth.jpg" class="img-responsive" alt="Placeholder image">
+											</div>
+											<div class="col-lg-9">
+												<h3> Seth</h3>
+												<img src="images/Raiting/4.gif" class="img-responsive" alt="4 rating">
+												<p>Surfing in Santa Cruz is dominated by Club Ed Surf School and Camps. The instructors are experienced and will help you learn surfing in a day. The entire package comes with the training for a week which I think is a good enough time to learn surfing! Apart from it, a great club to learn surfing at.</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="well">
+										<div class="row">
+											<div class="col-lg-3"><img src="images/profile/29_sara.jpg" class="img-responsive" alt="Placeholder image">
+											</div>
+											<div class="col-lg-9">
+												<h3> Sara</h3>
+												<img src="images/Raiting/3.gif" class="img-responsive" alt="3 rating">
+												<p>Monterey bay is well known for scuba diving and you will find all sorts of divers around you. Clean area, Good change rooms and ardent instructors will keep attracting people to this area. Will come back for more!</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="well">
+										<div class="row">
+											<div class="col-lg-3"><img src="images/profile/12_nick.jpg" class="img-responsive" alt="Placeholder image">
+											</div>
+											<div class="col-lg-9">
+												<h3> Nick</h3>
+												<img src="images/Raiting/3_5.gif" class="img-responsive" alt="3.5 rating">
+												<p>Red River George is one of the lively rock climbing places in USA. Definitely one of the popular places as we had wait to get to our spot. Once we got our spot, we understood why this place is popular! The view of the river bed from the rocks is one of a kind view! Do not miss this spot if you are close to it! Highly recommend it! Thank you Adventurewaits for recommending this place.</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+					</div>
+		</div>
+	</div>
+
+	<script src="js/bootstrap.min.js"></script>
+
+	<script src="https://www.amcharts.com/lib/3/ammap.js"></script>
+	<script src="https://www.amcharts.com/lib/3/maps/js/usaLow.js"></script>
+	<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+	<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+	<script src="https://www.amcharts.com/lib/3/themes/dark.js"></script>
+	<script src="https://www.amcharts.com/lib/3/themes/chalk.js"></script>
+
+	<script>
+		function initMap() {
+			var uluru = {
+				lat: 37.542571,
+				lng: -121.993037
+			};
+
+			var map = new google.maps.Map(document.getElementById('map'), {
+				zoom: 4,
+				center: uluru
+			});
+
+			getMapData();
+
+			var icons = {
+				icon: 'img/icons/adventure.png'
+			};
+
+			function addMarker(feature) {
+
+				if (feature.state.toUpperCase() == localStorage.getItem("searchedState").toUpperCase())
+					var marker = new google.maps.Marker({
+						location: feature.address,
+						position: new google.maps.LatLng(feature.latitude, feature.longitude),
+						icon: icons.icon,
+						map: map
+					});
+
+				var contentString = '<div id="content">' + '<div id="siteNotice">' + '</div>' + '<h4 id="firstHeading" class="firstHeading">' + feature.type.toUpperCase() + '</h4>' + '<div id="bodyContent">' + '<p><b>Sport: </b>' + feature.type + '<br>' + '<b>Name of the Place: </b>' + feature.name + '<br>' + '<b>Address of the Place: </b>' + feature.address + '</p>' + '</div>' + '</div>';
+
+				var infowindow = new google.maps.InfoWindow({
+					content: contentString
+				});
+				marker.addListener('click', function () {
+					infowindow.open(map, marker);
+					maxWidth: 50
+
+				});
+			}
+
+			function getMapData() {
+
+				var myData = {};
+				myData.searchedState = localStorage.getItem("searchedState");
+
+				$.ajax({
+					url: "/sports",
+					datatype: "JSON",
+					data: myData,
+					type: "POST",
+					success: function (data) {
+						if (data.statusCode == 200) {
+
+							var newData = data.data;
+							var j = 0;
+							for (var i = 0; i < newData.length; i++) {
+
+								if (newData[i].state.toUpperCase() == myData.searchedState.toUpperCase()) {
+									//console.log("FeaTURE IS" + "                  " + JSON.stringify(newData[i].state));
+									//console.log("MAP DATA IS " + JSON.stringify(newData[i]));
+									addMarker(newData[i]);
+									//console.log(++j);
+								}
+							}
+						}
+					},
+					error: function () {
+						//alert("error in html");
+					}
+				});
+			}
+		}
+
+		var map = AmCharts.makeChart("chartdiv", {
+			"type": "map",
+			"theme": "light",
+			"colorSteps": 10,
+			"panEventsEnabled": true,
+			"backgroundColor": "#5971E3",
+			"backgroundAlpha": 1,
+
+			"dataProvider": {
+				"map": "usaLow",
+				"getAreasFromMap": true
+			},
+
+			"areasSettings": {
+				"autoZoom": true
+			},
+
+			"imagesSettings": {
+				"labelPosition": "middle",
+				"labelFontSize": 12
+			},
+
+			"valueLegend": {
+				"right": 10,
+				"minValue": "little",
+				"maxValue": "a lot!"
+			}
+
+		});
+
+		map.addListener("init", function () {
+			// set up a longitude exceptions for certain areas
+			var longitude = {
+				"US-CA": -130,
+				"US-FL": 120,
+				"US-TX": 1,
+				"US-LA": 40
+			};
+
+			var latitude = {
+				"US-AK": -85
+			};
+
+			setTimeout(function () {
+				// iterate through areas and put a label over center of each
+				map.dataProvider.images = [];
+				for (x in map.dataProvider.areas) {
+					var area = map.dataProvider.areas[x];
+					area.groupId = area.id;
+					var image = new AmCharts.MapImage();
+					image.latitude = latitude[area.id] || map.getAreaCenterLatitude(area);
+					image.longitude = longitude[area.id] || map.getAreaCenterLongitude(area);
+					image.label = area.id.split('-').pop();
+					image.title = area.title;
+					image.linkToObject = area;
+					image.groupId = area.id;
+					map.dataProvider.images.push(image);
+				}
+				map.validateData();
+				//console.log(map.dataProvider);
+			}, 100)
+		});
+
+		map.addListener("clickMapObject", function (event) {
+
+			map.selectedObject = map.dataProvider;
+			event.mapObject.showAsSelected = !event.mapObject.showAsSelected;
+			map.returnInitialColor(event.mapObject);
+
+			var states = [];
+			for (var i in map.dataProvider.areas) {
+				var area = map.dataProvider.areas[i];
+
+				if (area.showAsSelected) {
+					states.push(area.title);
+					//console.log("GET " + area.id);
+					var newState = area.id.split("-")[1];
+
+					localStorage.setItem("searchedState", newState);
+					initMap();
+				}
+			}
+			if (states.toString() == "") {
+				$("#selStates").html("All over the United States");
+			} else {
+				$("#selStates").html(states.toString());
+			}
+
+		});
+
+		/* var map = AmCharts.makeChart(
+						"chartdiv",
+						{
+							"type" : "map",
+							"theme" : "light",
+							"panEventsEnabled" : true,
+							"backgroundColor" : "#ccccff",
+							"backgroundAlpha" : 1,
+							"dataProvider" : {
+								"map" : "usaLow",
+								"getAreasFromMap" : true
+							},
+							"smallMap" : {},
+							"areasSettings" : {
+								"autoZoom" : true,
+								"color" : "#dd99ff",
+								"colorSolid" : "#ff8080",
+								"selectedColor" : "#ff8080",
+								"outlineColor" : "#666666",
+								"rollOverColor" : "#ffb3e6",
+								"rollOverOutlineColor" : "#FFFFFF",
+								"selectable" : true
+							},
+							  "imagesSettings": {
+							    "labelPosition": "middle",
+							    "labelFontSize": 8
+							  },
+							  "valueLegend": {
+							    "right": 10,
+							    "minValue": "little",
+							    "maxValue": "a lot!"
+							  },
+							"listeners" : [ {
+								"event" : "clickMapObject",
+								"method" : function(event) {
+									
+									map.selectedObject = map.dataProvider;									
+									event.mapObject.showAsSelected = !event.mapObject.showAsSelected;
+									map.returnInitialColor(event.mapObject);
+
+									var states = [];
+									for ( var i in map.dataProvider.areas) {
+										var area = map.dataProvider.areas[i];	
+										
+										if (area.showAsSelected) {
+											states.push(area.title);		
+											console.log("GET " + area.id);
+											var newState = area.id.split("-")[1];
+											
+											localStorage.setItem("searchedState", newState);
+											initMap();
+										}
+									}
+									if (states.toString() == "") {										
+										$("#selStates").html("All over the United States");
+									} 
+									else {
+										$("#selStates").html(states.toString());										
+									}
+								}
+
+							}, 
+							
+							{
+								"event" : "init",
+								"method" : function(event) {
+									
+									 setTimeout(function () {
+										    // iterate through areas and put a label over center of each
+										    map.dataProvider.images = [];
+										    for( x in map.dataProvider.areas ) {
+										      var area = map.dataProvider.areas[ x ];
+										      area.groupId = area.id;
+										      var image = new AmCharts.MapImage();
+										      image.latitude = latitude[ area.id ] || map.getAreaCenterLatitude( area );
+										      image.longitude = longitude[ area.id ] || map.getAreaCenterLongitude( area );
+										      image.label = area.id.split('-').pop();
+										      image.title = area.title;
+										      image.linkToObject = area;
+										      image.groupId = area.id;
+										      map.dataProvider.images.push( image );
+										    }
+										    map.validateData();
+										    console.log(map.dataProvider);
+										  }, 100)
+								}
+
+							}
+							
+							],
+							"export" : {
+								"enabled" : true
+							}
+						}); */
+	</script>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2_EK0wdicPt2S1AZhxBt1Alt3C8TG5aY&callback=initMap">
+	</script>
+
+	 <!-- Footer -->
+  <footer>
+    <div class="container" align="center">
+      <div class="row">
+        <div class="col-lg-12">
+          <ul class="list-inline">
+            <li><a href="#">Home</a></li>
+            <li class="footer-menu-divider">&sdot;</li>
+            <li><a href="#sports">Sports</a></li>
+            <li class="footer-menu-divider">&sdot;</li>
+            <li><a href="#reviews">Reviews</a></li>
+            <li class="footer-menu-divider">&sdot;</li>
+            <li><a href="#signup" data-toggle="modal" data-target="#myModal">SignIn/Signup</a></li>
+          </ul>
+          <p class="copyright text-muted small">Copyright &copy; WebReactors 2016. All Rights Reserved</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- jQuery -->
+  <script src="js/jquery.js"></script>
+  <script src="js/customize.js"></script>
+</body>
+
+</html>
